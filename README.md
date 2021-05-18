@@ -11,7 +11,7 @@ The main interest of the developer mode is to :
 
 Now, how do we proceed?
 
-Just git clone the project and write `setyp.py develop` in your terminal. Bingo ! You have now a great UVP6foo package installed on your computer, congratulations !
+Just git clone the project and write `python setup.py develop` in your terminal (in your remote uvpec folder). Bingo ! You have now a great uvpec package installed on your computer, congratulations !
 
 ### How do we use the package?
 
