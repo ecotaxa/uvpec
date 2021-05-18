@@ -3,7 +3,7 @@ import os
 # run package (so it means that the package should be installed before... not sure it is the right way to go ..)
 # check if running the config file works (should be improved because there are plenty of steps..)
 def test_package():
-	os.system('UVP6foo ./config.yaml')
+	os.system('uvpec ./config.yaml')
 	assert(os.path.isdir('../test_output')) == True
 
 # check if features file exists

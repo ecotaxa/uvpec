@@ -1,4 +1,4 @@
-from UVP6foo.custom import label_to_int
+from uvpec.custom import label_to_int
 import xgboost as xgb
 import numpy as np
 import pandas as pd

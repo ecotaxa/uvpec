@@ -9,7 +9,7 @@ import numpy as np
 
 def read_config(user_config_file):
     """
-    Configure UVP6foo options
+    Configure uvpec options
     Args:
         user_config_file (str): path to the user-defined configuration file
     Returns:
@@ -17,10 +17,10 @@ def read_config(user_config_file):
     """
     # get general logger
     log = logging.getLogger()
-    log.debug("read UVP6foo default configuration")
+    log.debug("read uvpec default configuration")
 
     # read default config.yaml (provided in the package)
-    defaults_file = pkg_resources.resource_filename("UVP6foo", "config.yaml")
+    defaults_file = pkg_resources.resource_filename("uvpec", "config.yaml")
     with open(defaults_file, 'r') as ymlfile:
         defaults_cfg = yaml.safe_load(ymlfile)
 

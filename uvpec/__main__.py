@@ -6,7 +6,7 @@ import argparse
 import sys
 import logging
 import os
-import UVP6foo
+import uvpec
 import pandas as pd
 import shutil
 
@@ -14,7 +14,7 @@ def main():
 
     # Parse command line arguments ----
     parser = argparse.ArgumentParser(
-        prog="UVP6foo",
+        prog="uvpec",
         description="Train UVP models"
     )
 
@@ -28,7 +28,7 @@ def main():
 
     # Read configuration file ----
     config_file = args.path[0]
-    cfg = UVP6foo.read_config(config_file)
+    cfg = uvpec.read_config(config_file)
     
     # Read output directory
     output_dir = cfg['io']['output_dir'] 
@@ -43,7 +43,7 @@ def main():
         shutil.copy(config_file, output_dir)
 
     # Setup logging ----
-    log = UVP6foo.log(output_dir, debug=args.debug)
+    log = uvpec.log(output_dir, debug=args.debug)
     log.debug("we're debugging !")
 
     ### Extract features (pipeline - step 1)
@@ -57,7 +57,7 @@ def main():
         print("Features file does not exist...Extracting features...")
         # extraction of features 
         # note: We will loose some images that are empty (full black images) so some messages will be printed in the console, this is a normal behaviour
-        dataset = UVP6foo.extract_features(path_to_subfolders)
+        dataset = uvpec.extract_features(path_to_subfolders)
         # save dataset
         dataset.to_feather(os.path.join(output_dir, 'features.feather'))
         print("We are done with the extraction of features, data have been saved")
@@ -79,12 +79,12 @@ def main():
 
     # subsample detritus
     if detritus_subsampling:
-        df_train = UVP6foo.sample_detritus(df_train, subsampling_percentage, random_state)
+        df_train = uvpec.sample_detritus(df_train, subsampling_percentage, random_state)
     else:
         None
         
     # Generate class weights 
-    class_weights = UVP6foo.weights(df_train, weight_sensitivity)
+    class_weights = uvpec.weights(df_train, weight_sensitivity)
         
     # add weights to training set
     weights = df_train[['labels']].replace(to_replace = class_weights, inplace=False)['labels']
@@ -92,16 +92,16 @@ def main():
     
     # do 3-fold cross-validation
     print(df_train.head(n=5)) # just a check
-    cv_results, xgb_params, config_params, dtrain = UVP6foo.cross_validation(df_train, num_trees_CV, n_jobs, learning_rate, max_depth, random_state, weight_sensitivity, detritus_subsampling, subsampling_percentage)
+    cv_results, xgb_params, config_params, dtrain = uvpec.cross_validation(df_train, num_trees_CV, n_jobs, learning_rate, max_depth, random_state, weight_sensitivity, detritus_subsampling, subsampling_percentage)
     
     # save cv results and compute stats
-    best_tree_number = UVP6foo.save_cv_info(output_dir, cv_results, config_params)
+    best_tree_number = uvpec.save_cv_info(output_dir, cv_results, config_params)
     
     # train best model
-    best_model = UVP6foo.train(best_tree_number, dtrain, xgb_params)
+    best_model = uvpec.train(best_tree_number, dtrain, xgb_params)
     
     # save best model
-    UVP6foo.save_model(best_model, output_dir, config_params)
+    uvpec.save_model(best_model, output_dir, config_params)
     
 
 if __name__ == "__main__":

@@ -4,14 +4,14 @@ import setuptools
 
 setuptools.setup(
         # metadata
-        name='UVP6foo',
+        name='uvpec',
         version='0.0',
         description="Train UVP6 model",
         #long_description=file: README.md, # test if it works that way later
         #long_description_content_type='text/markdown',
-        url='',
-        author='',
-        author_email='',
+        url='https://github.com/ecotaxa/uvpec',
+        author='Florian Ricour',
+        author_email='florian.ricour@uliege.be',
         classifiers=[
             'Development Status :: 3 - Alpha',
             'Programming Language :: Python :: 3'
@@ -19,10 +19,10 @@ setuptools.setup(
         # content
         packages=setuptools.find_packages(),
         entry_points={
-            'console_scripts': ['UVP6foo = UVP6foo.__main__:main']
+            'console_scripts': ['uvpec = uvpec.__main__:main']
          },
         package_data={
-            'UVP6foo': ['config.yaml'],
+            'uvpec': ['config.yaml'],
          },
         python_requires='>=3.6', # check if that is true
         install_requires=[

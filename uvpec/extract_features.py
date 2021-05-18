@@ -1,5 +1,5 @@
 # Extraction of features (based on Fabio's code - WISIP)
-from UVP6foo.custom import get_uvp6_features
+from uvpec.custom import get_uvp6_features
 import os
 import pandas as pd
 
