@@ -1,0 +1,19 @@
+# 
+# Default UVP6foo settings
+#
+
+# Input/Output
+io:
+    output_dir: /path/to/output # output directory where data and model will be saved
+    images_dir: /path/to/image_folders # directory containing the folders with UVP6 images
+
+# Parameters for XGBoost
+xgboost:
+    random_state: 42 # Reproducibility
+    n_jobs: 12 # number of cores to use for XGBoost cross-validation or model training
+    learning_rate: 0.2 # learning rate (also called eta in the XGBoost library)
+    max_depth: 5 # maximum depth in a tree
+    weight_sensitivity: 0.0 # how much you want to bias the training set to biological classes. The greater the number, the greater the bias towards biological classes. We recommend using a factor between 0 and 1.
+    detritus_subsampling: false # in case you want to subsample the detritus
+    subsampling_percentage: 20 # how much % we keep in the detritus class
+    num_trees_CV: 500 # number of trees (max) used for the cross-validation
