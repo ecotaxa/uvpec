@@ -24,3 +24,6 @@ Once it is done, you should have everything you need in the output folder you sp
 
 We have prepared a `test` folder in our package. This allows you to check some stuff at the moment but it should be improved in the near future. To use it,
 just navigate in the test folder using `cd test` and then just run `pytest` in your terminal, everything should be now taken care of and if you only see green lights it means that all tests went smoothly!
+
+##### For more information on the developer mode
+https://stackoverflow.com/questions/19048732/python-setup-py-develop-vs-install
