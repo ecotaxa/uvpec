@@ -1,8 +1,11 @@
-# UVP6_classif
+# Underwater Vision Profiler Embedded Classifier
+
 Toolbox to train automatic classification models for UVP6 images.
 
 ### How to install the package on your machine and test it in 'developer mode' ?
+
 The main interest of the developer mode is to :
+
 1. Avoid to install your unfinished package randomly on your computer, making it easy to just remove it once you are done.
 2. It __should__ be easy to uninstall it without any tracks left on your machine.
 
@@ -20,5 +23,4 @@ Once it is done, you should have everything you need in the output folder you sp
 ### Last but not least
 
 We have prepared a `test` folder in our package. This allows you to check some stuff at the moment but it should be improved in the near future. To use it,
-just navigate in the test folder using `cd test` and then just run `pytest` in your terminal, everything should be now taken care of and if you only see green lights
-it means that all tests went smoothly!
+just navigate in the test folder using `cd test` and then just run `pytest` in your terminal, everything should be now taken care of and if you only see green lights it means that all tests went smoothly!
