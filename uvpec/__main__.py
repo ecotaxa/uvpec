@@ -39,8 +39,12 @@ def main():
         os.makedirs(output_dir, exist_ok=True) # make directory
         shutil.copy(config_file, output_dir) # copy config file in that directory
     else:
-        print("Output directory already exists. Erasing config file with the one provided.")
-        shutil.copy(config_file, output_dir)
+        print("Output directory already exists")
+        if not os.path.isfile(os.path.join(output_dir, 'config.yaml')):
+            print('Configuration file does not exist. Creating it.')
+            shutil.copy(config_file, output_dir)
+        else:
+            print('Configuration file already exists.')
 
     # Setup logging ----
     log = uvpec.log(output_dir, debug=args.debug)
