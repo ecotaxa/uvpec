@@ -27,3 +27,6 @@ just navigate in the test folder using `cd test` and then just run `pytest` in y
 
 ##### For more information on the developer mode
 https://stackoverflow.com/questions/19048732/python-setup-py-develop-vs-install
+
+##### For a simple installation (not in developer mode)
+Run `pip3 install --user git+https://github.com/ecotaxa/uvpec`
