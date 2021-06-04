@@ -13,7 +13,7 @@ def extract_features(path_to_subfolders):
     # Lists of all subfolders within the path_to_subfolders
     _, folderList, _ = next(os.walk(path_to_subfolders))
 
-    # saveguard : the number of image folders should not be greater than 40 (technical limit, see with Marc Picheral/Fabio Dias/Camille Catanalo)
+    # saveguard : the number of image folders should not be greater than 40 (technical limit, see with Marc Picheral/Fabio Dias/Camille Catalano)
     if len(folderList > 40):
         raise ValueError('Max number of classes is 40.')
 
