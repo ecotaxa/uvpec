@@ -108,7 +108,7 @@ def main():
     uvpec.save_model(best_model, output_dir, config_params)
     
     # create TAXOCONF file
-    MODEL_REF = 'XGBoost_'+str(learning_rate)+'_'+str(max_depth)+'_'+str(weight_sensitivity)+'_'+str(detritus_subsampling)+'_'+str(subsampling_percentage)
+    MODEL_REF = 'xgboost_'+str(learning_rate)+'_'+str(max_depth)+'_'+str(weight_sensitivity)+'_'+str(detritus_subsampling)+'_'+str(subsampling_percentage)
     uvpec.create_taxoconf(output_dir, class_weights, MODEL_REF)
 
 if __name__ == "__main__":
