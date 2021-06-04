@@ -22,8 +22,13 @@ Once it is done, you should have everything you need in the output folder you sp
 
 ### Last but not least
 
-We have prepared a `test` folder in our package. This allows you to check some stuff at the moment but it should be improved in the near future. To use it,
-just navigate in the test folder using `cd test` and then just run `pytest` in your terminal, everything should be now taken care of and if you only see green lights it means that all tests went smoothly!
+We have prepared a `test` folder in our package. This allows you to check if the pipeline works without lauching a full process that will take a good amount of time. It is always a good idea to check if everything works before using it on a full training set and also after some package updates. To use it,
+just navigate in the test folder using `cd test` then run `uvpec config.yaml`. You should see something going on in your terminal.
+
+To check if the pipeline is not broken somewhere, we have implemented some tests that check (so far) if the desired outputs are present at the end of the procedure. If not, that means something went wrong and the error messages can help us find where the leak is. For that,  run `pytest` in your terminal, everything should now be taken care of and if you only see green lights it means that all tests went smoothly!
+
+Just a reminder, if you see some errors during the test, check if you did not forget to run `uvpec config.yaml`.  
+`pytest` is not automatically present on your laptop. To install it, `pip install --user pytest`
 
 ##### For more information on the developer mode
 https://stackoverflow.com/questions/19048732/python-setup-py-develop-vs-install
