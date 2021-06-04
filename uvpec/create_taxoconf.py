@@ -4,6 +4,9 @@ def create_taxoconf(output_dir, dict_classes, MODEL_REF):
     """
     Function that creates a taxonomic configuration file for the UVP6.
     """
+    
+    print('Create TAXOCONF file')
+    
     # number of classes
     n_classes = len(dict_classes)
     
@@ -19,3 +22,5 @@ def create_taxoconf(output_dir, dict_classes, MODEL_REF):
     for i in range(n_classes):
         f = open(os.path.join(output_dir, "TAXOCONF.txt"), "a")
         f.write("// Parameter name: Taxo_ID_for_class_"+f"{i:02d}"+", Integer type, range: 0 to 9999999\n// Description: Taxonomic unique identifier for model's class "+f"{i:02d}"+"\nTaxo_ID_for_class_"+f"{i:02d}"+" = "+str(i)+"\n\n")
+        
+    print('Done.')
