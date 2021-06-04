@@ -33,5 +33,5 @@ Just a reminder, if you see some errors during the test, check if you did not fo
 ##### For more information on the developer mode
 https://stackoverflow.com/questions/19048732/python-setup-py-develop-vs-install
 
-##### For a simple installation (not in developer mode)
+##### For a simple installation (not in developer mode) -- OR to update the package /!\
 Run `pip3 install --user git+https://github.com/ecotaxa/uvpec`
