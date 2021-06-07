@@ -11,7 +11,7 @@ def create_taxoconf(output_dir, dict_classes, MODEL_REF):
     n_classes = len(dict_classes)
     
     # name of the taxo configuration file
-    TAXOCONFNAME = 'TAXO_CONF_NKE_0'
+    TAXOCONFNAME = 'TAXO_NKE_0'
 
     # creation of the header
     f = open(os.path.join(output_dir, "TAXOCONF.txt"), "w")
