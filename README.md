@@ -15,7 +15,7 @@ Just git clone the project and write `python setup.py develop` in your terminal 
 
 ### How do we use the package?
 
-Just make a nice `config.yaml` file containing the name of the folder where you want to keep the outputs and the name of the folder containing the image subfolders.
+Just make a nice `config.yaml` file containing the name of the folder where you want to keep the outputs and the name of the folder containing the image subfolders. /!\ The folders containing the images should have names that strictly fit with the EcoTaxa nomenclature (see the .csv for that). /!\
 Then, write in your terminal `uvpec config.yaml` and wait for the magic to happen !
 
 Once it is done, you should have everything you need in the output folder you specified. 
