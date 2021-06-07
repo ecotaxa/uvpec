@@ -12,7 +12,7 @@ def create_taxoconf(output_dir, dict_classes, MODEL_REF):
     classes_id.set_index(keys = 'display_name', inplace=True) # rename indices with label names
     classes_id = classes_id.to_dict() # convert to a dict()
     # check if dict exists
-    if type(classe_id) == dict:
+    if type(classes_id) == dict:
         print('OK.')
     else:
         raise TypeError("Dictionnary with EcoTaxa's IDs does not exist.") 
@@ -35,6 +35,6 @@ def create_taxoconf(output_dir, dict_classes, MODEL_REF):
     # append data for classes
     for i in range(n_classes):
         f = open(os.path.join(output_dir, "TAXOCONF.txt"), "a")
-        f.write("// Parameter name: Taxo_ID_for_class_"+f"{i:02d}"+", Integer type, range: 0 to 9999999\n// Description: Taxonomic unique identifier for model's class "+f"{i:02d}"+"\nTaxo_ID_for_class_"+f"{i:02d}"+" = "+str(classes_id[classes[i]])+"\n\n")
+        f.write("// Parameter name: Taxo_ID_for_class_"+f"{i:02d}"+", Integer type, range: 0 to 9999999\n// Description: Taxonomic unique identifier for model's class "+f"{i:02d}"+"\nTaxo_ID_for_class_"+f"{i:02d}"+" = "+str(classes_id['id'][classes[i]])+"\n\n")
         
     print('Done.')
