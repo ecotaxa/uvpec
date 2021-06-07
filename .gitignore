@@ -1,3 +1,4 @@
 test_output/
 .ipynb_checkpoints/
 test/__pycache__
+.Rproj.user
