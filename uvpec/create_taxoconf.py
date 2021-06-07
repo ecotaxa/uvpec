@@ -1,14 +1,28 @@
 import os
+import pandas as pd
   
 def create_taxoconf(output_dir, dict_classes, MODEL_REF):
     """
     Function that creates a taxonomic configuration file for the UVP6.
     """
     
+    # read IDs from EcoTaxa (csv file) and create a dictionnary from it
+    print('Read EcoTaxa IDs')
+    classes_id = pd.read_csv('../id_classes_ecotaxa.csv')
+    classes_id.set_index(keys = 'display_name', inplace=True) # rename indices with label names
+    classes_id = classes_id.to_dict() # convert to a dict()
+    # check if dict exists
+    if type(classe_id == dict):
+        print('OK.')
+    else
+        raise TypeError("Dictionnary with EcoTaxa's IDs does not exist.") 
+    
+    # prepation of the taxo configuration file
     print('Create TAXOCONF file')
     
-    # number of classes
+    # number of classes in the current model
     n_classes = len(dict_classes)
+    classes = list(dict_classes.keys()) # list of all classes in the CURRENT model
     
     # name of the taxo configuration file
     TAXOCONFNAME = 'TAXO_NKE_0'
@@ -21,6 +35,6 @@ def create_taxoconf(output_dir, dict_classes, MODEL_REF):
     # append data for classes
     for i in range(n_classes):
         f = open(os.path.join(output_dir, "TAXOCONF.txt"), "a")
-        f.write("// Parameter name: Taxo_ID_for_class_"+f"{i:02d}"+", Integer type, range: 0 to 9999999\n// Description: Taxonomic unique identifier for model's class "+f"{i:02d}"+"\nTaxo_ID_for_class_"+f"{i:02d}"+" = "+str(i)+"\n\n")
+        f.write("// Parameter name: Taxo_ID_for_class_"+f"{i:02d}"+", Integer type, range: 0 to 9999999\n// Description: Taxonomic unique identifier for model's class "+f"{i:02d}"+"\nTaxo_ID_for_class_"+f"{i:02d}"+" = "+str(classes_id[classes[i]])+"\n\n")
         
     print('Done.')
