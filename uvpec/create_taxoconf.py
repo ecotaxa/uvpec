@@ -12,7 +12,7 @@ def create_taxoconf(output_dir, dict_classes, MODEL_REF):
     classes_id.set_index(keys = 'display_name', inplace=True) # rename indices with label names
     classes_id = classes_id.to_dict() # convert to a dict()
     # check if dict exists
-    if type(classe_id == dict):
+    if type(classe_id) == dict:
         print('OK.')
     else:
         raise TypeError("Dictionnary with EcoTaxa's IDs does not exist.") 
