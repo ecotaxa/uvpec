@@ -14,7 +14,7 @@ def create_taxoconf(output_dir, dict_classes, MODEL_REF):
     # check if dict exists
     if type(classe_id == dict):
         print('OK.')
-    else
+    else:
         raise TypeError("Dictionnary with EcoTaxa's IDs does not exist.") 
     
     # prepation of the taxo configuration file
