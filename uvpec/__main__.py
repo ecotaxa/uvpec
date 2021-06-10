@@ -71,8 +71,7 @@ def main():
             # writing each file one by one
             for file in file_paths:
                 zip.write(file)
-  
-    print('All files zipped successfully!')
+        print('All files zipped successfully!')   
 
     # check if features file exists 
     if(os.path.isfile(os.path.join(output_dir, features_ID+'.feather')) == True):
@@ -117,7 +116,6 @@ def main():
 
     # do 3-fold cross-validation
     print(df_train.head(n=5)) # just a check
-    print(df_train.shape)
     cv_results, xgb_params, config_params, dtrain = uvpec.cross_validation(df_train, num_trees_CV, n_jobs, learning_rate, max_depth, random_state, weight_sensitivity, detritus_subsampling, subsampling_percentage)
     
     # save cv results and compute stats

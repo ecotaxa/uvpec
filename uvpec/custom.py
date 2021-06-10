@@ -176,6 +176,7 @@ def int_to_label(dico, y_train):
 def label_to_int(dico, y_train):
     """Convert labels to integers, based on a dictionary"""
     labels = [dico[name] for name in y_train]
+    return(labels)
 
 ##### How to zip a folder?
 

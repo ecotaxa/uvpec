@@ -32,7 +32,7 @@ def cross_validation(dataset, num_trees_CV, n_jobs, learning_rate, max_depth, ra
              'seed':random_state}
 
     num_boost_round = num_trees_CV
-    print(weights)
+
     print(df_train.head(5))
     # CV
     print('Starting the cross-validation with '+str(num_boost_round)+' trees.')
