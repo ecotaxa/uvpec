@@ -36,7 +36,10 @@ def read_config(user_config_file):
 
     # check correctedness of configuration values
     log.debug("check configuration values")
-        
+    
+    # features_ID
+    assert isinstance(cfg['io']['features_ID'], (str)), 'features_ID > should be a string'
+
     # random_state
     assert isinstance(cfg['xgboost']['random_state'], (int)), 'xgboost > random_state should be an integer'	
 
