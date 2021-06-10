@@ -33,7 +33,6 @@ def cross_validation(dataset, num_trees_CV, n_jobs, learning_rate, max_depth, ra
 
     num_boost_round = num_trees_CV
 
-    print(df_train.head(5))
     # CV
     print('Starting the cross-validation with '+str(num_boost_round)+' trees.')
     bst = xgb.cv(xgb_params, dtrain, num_boost_round = num_boost_round, nfold = 3, stratified = True,
