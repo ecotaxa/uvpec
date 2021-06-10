@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+##### How to extract UVP6 features
 
 from skimage import io, measure
 from numpy import argmax, histogram
@@ -164,6 +164,8 @@ def get_uvp6_features(imagefilename, threshold):
     features["gray_hu_moment-7"] = - region.weighted_moments_hu[6] # see comment above
     
     return features
+
+##### How to convert label to int and vice-versa
     
 def int_to_label(dico, y_train):
     """Convert integers to labels, based on a dictionary"""
@@ -174,5 +176,28 @@ def int_to_label(dico, y_train):
 def label_to_int(dico, y_train):
     """Convert labels to integers, based on a dictionary"""
     labels = [dico[name] for name in y_train]
+
+##### How to zip a folder?
+
+# credits to https://www.geeksforgeeks.org/working-zip-files-python/
+
+# importing required modules
+from zipfile import ZipFile
+import os
+  
+def get_all_file_paths(directory):
+  
+    # initializing empty file paths list
+    file_paths = []
+  
+    # crawling through directory and subdirectories
+    for root, directories, files in os.walk(directory):
+        for filename in files:
+            # join the two strings in order to form the full filepath.
+            filepath = os.path.join(root, filename)
+            file_paths.append(filepath)
+  
+    # returning all file paths
+    return file_paths 
     return(labels)
 

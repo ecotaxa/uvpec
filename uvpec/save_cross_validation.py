@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 
-def save_cv_info(output_dir, cv_model, params):
+def save_cv_info(output_dir, cv_model, params, key):
 
     """
     Function that saves the panda dataframe containing information on the cross-validation (i.e. to see if it overfits with a plot logloss in fonction of the number of trees. 
@@ -14,7 +14,7 @@ def save_cv_info(output_dir, cv_model, params):
     print('Configuration parameters :\n')
     print(params)
     # save cross-validation model
-    cv_model.to_feather(os.path.join(output_dir,'inflexion_point_'+str(params['learning_rate'])+'_'+str(params['max_depth'])+'_'+str(params['weight_sensitivity'])+'_'+str(params['detritus_subsampling'])+'_'+str(params['subsampling_percentage'])+'.feather'))
+    cv_model.to_feather(os.path.join(output_dir,'inflexion_point_'+key+'.feather'))
     
     # Compute some stats/metrics
     
@@ -25,7 +25,7 @@ def save_cv_info(output_dir, cv_model, params):
     accuracy_cv = 1 - cv_model.iloc[best_tree_number-1]['test-merror-mean'] # accuracy = 1 - merror (multiclass error)
     
     # write stats/metrics
-    with open(os.path.join(output_dir,'cv_xgboost_best_param_'+str(params['learning_rate'])+'_'+str(params['max_depth'])+'_'+str(params['weight_sensitivity'])+'_'+str(params['detritus_subsampling'])+'_'+str(params['subsampling_percentage'])+'.txt'), 'w') as f:
+    with open(os.path.join(output_dir,'cv_results_'+key+'.txt'), 'w') as f:
         f.write("Best tree number for the cross-validation is %d\r\n" % best_tree_number)
         f.write("Best mlogloss is %f\r\n" % best_logloss)
         f.write("Accuracy for this tree number %f\r\n" % accuracy_cv)

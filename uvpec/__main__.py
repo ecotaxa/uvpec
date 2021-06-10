@@ -9,6 +9,7 @@ import os
 import uvpec
 import pandas as pd
 import shutil
+from key_generator.key_generator import generate
 
 def main():
 
@@ -32,19 +33,23 @@ def main():
     
     # Read output directory
     output_dir = cfg['io']['output_dir'] 
+
+    # Read features ID
+    features_ID = cfg['io']['features_ID']
     
+    # Generate unique key to have a unique identification (ID)
+    key = generate(1, min_atom_len = 8, max_atom_len = 8).get_key() # unique key of 8 characters
+
     # Check if output directory exists
     if not os.path.exists(output_dir):
         print("Output directory does not exist. Creating it.")
         os.makedirs(output_dir, exist_ok=True) # make directory
         shutil.copy(config_file, output_dir) # copy config file in that directory
+        os.rename(os.path.join(output_dir,'config.yaml'), os.path.join(output_dir, 'config_'+key+'.yaml')) # rename config file with the key 
     else:
         print("Output directory already exists")
-        if not os.path.isfile(os.path.join(output_dir, 'config.yaml')):
-            print('Configuration file does not exist. Creating it.')
-            shutil.copy(config_file, output_dir)
-        else:
-            print('Configuration file already exists.')
+        shutil.copy(config_file, output_dir) # copy config file in that directory
+        os.rename(os.path.join(output_dir,'config.yaml'), os.path.join(output_dir, 'config_'+key+'.yaml')) # rename config file with the key 
 
     # Setup logging ----
     log = uvpec.log(output_dir, debug=args.debug)
@@ -53,23 +58,35 @@ def main():
     ### Extract features (pipeline - step 1)
     path_to_subfolders = cfg['io']['images_dir']
 
-    # check if features file exists
-    if(os.path.isfile(os.path.join(output_dir, 'features.feather')) == True):
+    # Zip image folders in the output folder (source: https://www.geeksforgeeks.org/working-zip-files-python/)
+    print('Zip image folders')
+    file_paths = get_all_file_paths(path_to_subfolders)
+
+    # writing files to a zipfile
+    with ZipFile(features_ID+'_images.zip','w') as zip:
+        # writing each file one by one
+        for file in file_paths:
+            zip.write(file)
+  
+    print('All files zipped successfully!')
+
+    # check if features file exists 
+    if(os.path.isfile(os.path.join(output_dir, features_ID)) == True):
         print('All features have already been extracted...Loading data')
-        dataset = pd.read_feather(os.path.join(output_dir, 'features.feather'))
+        dataset = pd.read_feather(os.path.join(output_dir, features_ID))  
     else:
         print("Features file does not exist...Extracting features...")
         # extraction of features 
         # note: We will loose some images that are empty (full black images) so some messages will be printed in the console, this is a normal behaviour
         dataset = uvpec.extract_features(path_to_subfolders)
         # save dataset
-        dataset.to_feather(os.path.join(output_dir, 'features.feather'))
+        dataset.to_feather(os.path.join(output_dir, features_ID))
         print("We are done with the extraction of features, data have been saved")
 
     ### Train model (pipeline - step 2)
 
-    # read training_data
-    df_train = pd.read_feather(os.path.join(output_dir,'features.feather'))
+    # training_data
+    df_train = dataset
 
     # read xgboost settings
     random_state = cfg['xgboost']['random_state']
@@ -99,17 +116,17 @@ def main():
     cv_results, xgb_params, config_params, dtrain = uvpec.cross_validation(df_train, num_trees_CV, n_jobs, learning_rate, max_depth, random_state, weight_sensitivity, detritus_subsampling, subsampling_percentage)
     
     # save cv results and compute stats
-    best_tree_number = uvpec.save_cv_info(output_dir, cv_results, config_params)
+    best_tree_number = uvpec.save_cv_info(output_dir, cv_results, config_params, key)
     
     # train best model
     best_model = uvpec.train(best_tree_number, dtrain, xgb_params)
     
     # save best model
-    uvpec.save_model(best_model, output_dir, config_params)
+    uvpec.save_model(best_model, output_dir, key)
     
     # create TAXOCONF file
-    MODEL_REF = 'xgboost_'+str(learning_rate)+'_'+str(max_depth)+'_'+str(weight_sensitivity)+'_'+str(detritus_subsampling)+'_'+str(subsampling_percentage)
-    uvpec.create_taxoconf(output_dir, class_weights, MODEL_REF)
+    MODEL_REF = 'Muvpec_'+key
+    uvpec.create_taxoconf(output_dir, class_weights, MODEL_REF, key)
 
 if __name__ == "__main__":
     main()
