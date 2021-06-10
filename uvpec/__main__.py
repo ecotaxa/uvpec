@@ -10,6 +10,7 @@ import uvpec
 import pandas as pd
 import shutil
 from key_generator.key_generator import generate
+from zipfile import ZipFile
 
 def main():
 
@@ -60,33 +61,36 @@ def main():
 
     # Zip image folders in the output folder (source: https://www.geeksforgeeks.org/working-zip-files-python/)
     print('Zip image folders')
-    file_paths = get_all_file_paths(path_to_subfolders)
+    file_paths = uvpec.custom.get_all_file_paths(path_to_subfolders)
 
     # writing files to a zipfile
-    with ZipFile(features_ID+'_images.zip','w') as zip:
-        # writing each file one by one
-        for file in file_paths:
-            zip.write(file)
+    if(os.path.isfile(os.path.join(output_dir, features_ID+'_images.zip')) == True):
+        print('Images have already been zipped !')
+    else:
+        with ZipFile(os.path.join(output_dir, features_ID+'_images.zip'),'w') as zip:
+            # writing each file one by one
+            for file in file_paths:
+                zip.write(file)
   
     print('All files zipped successfully!')
 
     # check if features file exists 
-    if(os.path.isfile(os.path.join(output_dir, features_ID)) == True):
+    if(os.path.isfile(os.path.join(output_dir, features_ID+'.feather')) == True):
         print('All features have already been extracted...Loading data')
-        dataset = pd.read_feather(os.path.join(output_dir, features_ID))  
+        dataset = pd.read_feather(os.path.join(output_dir, features_ID+'.feather'))  
     else:
         print("Features file does not exist...Extracting features...")
         # extraction of features 
         # note: We will loose some images that are empty (full black images) so some messages will be printed in the console, this is a normal behaviour
         dataset = uvpec.extract_features(path_to_subfolders)
         # save dataset
-        dataset.to_feather(os.path.join(output_dir, features_ID))
+        dataset.to_feather(os.path.join(output_dir, features_ID+'.feather'))
         print("We are done with the extraction of features, data have been saved")
 
     ### Train model (pipeline - step 2)
 
     # training_data
-    df_train = dataset
+    df_train = dataset.copy()
 
     # read xgboost settings
     random_state = cfg['xgboost']['random_state']
@@ -110,9 +114,10 @@ def main():
     # add weights to training set
     weights = df_train[['labels']].replace(to_replace = class_weights, inplace=False)['labels']
     df_train['weights'] = weights
-    
+
     # do 3-fold cross-validation
     print(df_train.head(n=5)) # just a check
+    print(df_train.shape)
     cv_results, xgb_params, config_params, dtrain = uvpec.cross_validation(df_train, num_trees_CV, n_jobs, learning_rate, max_depth, random_state, weight_sensitivity, detritus_subsampling, subsampling_percentage)
     
     # save cv results and compute stats
