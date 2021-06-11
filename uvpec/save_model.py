@@ -13,7 +13,3 @@ def save_model(xgb_model, output_dir, key):
     # dump model to a text file
     xgb_model.feature_names = None # clean model feature names before exporting
     xgb_model.dump_model(os.path.join(output_dir,'Muvpec_'+key+'.txt'))
-
-    # to be done (WISIP)
-    # dump model to binary format
-    
