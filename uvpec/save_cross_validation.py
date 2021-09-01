@@ -11,7 +11,7 @@ def save_cv_info(output_dir, cv_model, params, key):
     """
     
     print('Save CV info and compute best tree number to train the model.')
-    print('Configuration parameters :\n')
+    print('Configuration parameters :')
     print(params)
     # save cross-validation model
     cv_model.to_feather(os.path.join(output_dir,'inflexion_point_'+key+'.feather'))

@@ -125,7 +125,8 @@ def main():
     best_model = uvpec.train(best_tree_number, dtrain, xgb_params)
     
     # save best model
-    uvpec.save_model(best_model, output_dir, key)
+    n_categories = len(np.unique(df_train['labels']))
+    uvpec.save_model(best_model, output_dir, key, n_categories)
     
     # create TAXOCONF file
     MODEL_REF = 'Muvpec_'+key
