@@ -8,6 +8,7 @@ import logging
 import os
 import uvpec
 import pandas as pd
+import numpy as np
 import shutil
 from key_generator.key_generator import generate
 from zipfile import ZipFile
