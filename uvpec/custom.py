@@ -199,6 +199,5 @@ def get_all_file_paths(directory):
             file_paths.append(filepath)
   
     # returning all file paths
-    return file_paths 
-    return(labels)
+    return(file_paths) 
 
