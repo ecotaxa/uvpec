@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 from sklearn import preprocessing
 standard_scaler = preprocessing.StandardScaler()
+import pandas as pd
 
 def create_detritus_classes(n_class, data):
     """
