@@ -13,7 +13,7 @@ def create_detritus_classes(n_class, data):
     detritus.drop(columns = 'labels', inplace=True)
     X = detritus.to_numpy()
     x_scaled = standard_scaler.fit_transform(X)
-    kmeans = KMeans(n_clusters = n_class, precompute_distances = True, random_state = 42, n_jobs = 6, algorithm="elkan").fit(x_scaled)
+    kmeans = KMeans(n_clusters = n_class, random_state = 42, algorithm="elkan").fit(x_scaled)
     kmeans_labels = kmeans.labels_
     new_detritus = ['detritus_' + str(det) for det in kmeans_labels]
     detritus['labels'] = new_detritus

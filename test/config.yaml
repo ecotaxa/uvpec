@@ -11,3 +11,4 @@ xgboost:
   detritus_subsampling: false
   subsampling_percentage: 20
   num_trees_CV: 5
+  n_detritus: 10
