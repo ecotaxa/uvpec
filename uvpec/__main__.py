@@ -117,7 +117,7 @@ def main():
         print('Kmeans in progress...')
         df_train = uvpec.create_detritus_classes(n_detritus, df_train)
         print('Done.')
-        print(df_train_head(n=40))
+        print(df_train.head(n=40))
 
     # Generate class weights 
     class_weights = uvpec.weights(df_train, weight_sensitivity)
