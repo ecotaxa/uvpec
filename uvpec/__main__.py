@@ -117,10 +117,11 @@ def main():
         print('Kmeans in progress...')
         uvpec.create_detritus_classes(n_detritus, df_train)
         print('Done.')
-        print(df_train.head(n=40))
+       # print(df_train.head(n=40))
 
     # Generate class weights 
     class_weights = uvpec.weights(df_train, weight_sensitivity)
+    print(class_weights)
         
     # add weights to training set
     weights = df_train[['labels']].replace(to_replace = class_weights, inplace=False)['labels']
@@ -141,8 +142,8 @@ def main():
     uvpec.save_model(best_model, output_dir, key, n_categories)
     
     # create TAXOCONF file
-    MODEL_REF = 'Muvpec_'+key
-    uvpec.create_taxoconf(output_dir, class_weights, MODEL_REF, key)
+    #MODEL_REF = 'Muvpec_'+key
+    #uvpec.create_taxoconf(output_dir, class_weights, MODEL_REF, key)
 
 if __name__ == "__main__":
     main()
