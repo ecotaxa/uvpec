@@ -115,7 +115,7 @@ def main():
     else:
         print('Classes of detritus: '+str(n_detritus))
         print('Kmeans in progress...')
-        df_train = create_detritus_classes(n_detritus, df_train)
+        df_train = uvpec.create_detritus_classes(n_detritus, df_train)
         print('Done.')
 
     # Generate class weights 
