@@ -17,7 +17,7 @@ def create_detritus_classes(n_class, data):
     kmeans_labels = kmeans.labels_
     new_detritus = ['detritus_' + str(det) for det in kmeans_labels]
     detritus['labels'] = new_detritus
-    #data.update(detritus) # update directly the dataset
+    data.update(detritus) # update directly the dataset
 
     # compute euclidian distance
     #distances = [] # respective to the cluster
