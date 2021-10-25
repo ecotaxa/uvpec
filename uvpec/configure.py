@@ -64,6 +64,9 @@ def read_config(user_config_file):
     # num_trees_CV
     assert isinstance(cfg['xgboost']['num_trees_CV'], (int)), 'xgboost > num_trees_cv should be an integer'
 
+    # n detritus
+    assert isinstance(cfg['xgboost']['n_detritus'], (int)), 'xgboost > n_detritus should be an integer'
+
     # add the configuration to the log
     log.info(cfg)
 

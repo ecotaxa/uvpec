@@ -101,13 +101,23 @@ def main():
     subsampling_percentage = cfg['xgboost']['subsampling_percentage']
     weight_sensitivity = cfg['xgboost']['weight_sensitivity']
     num_trees_CV = cfg['xgboost']['num_trees_CV']
+    n_detritus = cfg['xgboost']['n_detritus']
 
     # subsample detritus
     if detritus_subsampling:
         df_train = uvpec.sample_detritus(df_train, subsampling_percentage, random_state)
     else:
         None
-        
+    
+    # split detritus into N class
+    if n_detritus == 1:
+        print('1 class of detritus -> no KMEANS')
+    else:
+        print('Classes of detritus: '+str(n_detritus))
+        print('Kmeans in progress...')
+        df_train = create_detritus_classes(n_detritus, df_train)
+        print('Done.')
+
     # Generate class weights 
     class_weights = uvpec.weights(df_train, weight_sensitivity)
         
