@@ -8,6 +8,7 @@ def weights(dataset, weight_sensitivity):
     Function that generates class weights based on the sensitivity. 
     """
     class_counts = dataset.groupby('labels').size()
+    print(class_counts)
     count_max = 0
     class_weights = {}
     count_max = np.max(class_counts)
