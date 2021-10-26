@@ -10,3 +10,4 @@ from .train import *
 from .save_model import *
 from .create_taxoconf import *
 from .kmeans_detritus import *
+from .clean_detritus import *

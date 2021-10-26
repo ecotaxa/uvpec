@@ -103,6 +103,9 @@ def main():
     num_trees_CV = cfg['xgboost']['num_trees_CV']
     n_detritus = cfg['xgboost']['n_detritus']
 
+    # clean detritus (even if N = 1 and BEFORE we subsample anything.. see next step)
+    df_train = uvpec.clean_detritus(df_train)
+
     # subsample detritus
     if detritus_subsampling:
         df_train = uvpec.sample_detritus(df_train, subsampling_percentage, random_state)
