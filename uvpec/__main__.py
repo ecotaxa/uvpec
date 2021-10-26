@@ -104,7 +104,7 @@ def main():
     n_detritus = cfg['xgboost']['n_detritus']
 
     # clean detritus (even if N = 1 and BEFORE we subsample anything.. see next step)
-    df_train = uvpec.clean_detritus(df_train)
+    df_train = uvpec.remove_outliers(df_train)
 
     # subsample detritus
     if detritus_subsampling:
