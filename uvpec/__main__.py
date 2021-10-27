@@ -68,6 +68,7 @@ def main():
     if(os.path.isfile(os.path.join(output_dir, features_ID+'_images.zip')) == True):
         print('Images have already been zipped !')
     else:
+        print('Images are being zipped...')
         with ZipFile(os.path.join(output_dir, features_ID+'_images.zip'),'w') as zip:
             # writing each file one by one
             for file in file_paths:
