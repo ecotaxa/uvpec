@@ -5,7 +5,7 @@ from sklearn import preprocessing
 standard_scaler = preprocessing.StandardScaler()
 import pandas as pd
 
-def create_detritus_classes(n_class, data):
+def create_detritus_classes(n_class, data, key, output_dir):
     """
     Function that does a KMEANS on the 'detritus' class and split it on n class, ie. detritus_0, detritus_1, ..., detritus_N
     """
@@ -30,8 +30,8 @@ def create_detritus_classes(n_class, data):
     data.update(detritus) # update directly the dataset
 
     # save data for later use
-    np.save('coord_centroids.npy', coord_centroids)
-    np.save('scale_mean.npy', scale_mean)
-    np.save('scale_var.npy', scale_var)
+    np.save(os.path.join(output_dir, 'coord_centroids_'+key+'.npy'), coord_centroids)
+    np.save(os.path.join(output_dir, 'scale_mean_'+key+'.npy'), scale_mean)
+    np.save(os.path.join(output_dir, 'scale_var_'+key+'.npy'), scale_var)
 
     return(data, scale_mean, scale_var, coord_centroids)
