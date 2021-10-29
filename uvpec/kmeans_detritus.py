@@ -20,7 +20,7 @@ def create_detritus_classes(n_class, data):
     scale_var = standard_scaler.var_
 
     # now we can really scale (fit AND transform)
-    x_scaled = standard_scaler.fit_transform(X)
+    x_scaled = standard_scaler.fit_transform(detritus)
     # now, do KMEANS
     kmeans = KMeans(n_clusters = n_class, random_state = 42, algorithm="elkan").fit(x_scaled)
     kmeans_labels = kmeans.labels_
