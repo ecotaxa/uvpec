@@ -9,15 +9,29 @@ def create_detritus_classes(n_class, data):
     """
     Function that does a KMEANS on the 'detritus' class and split it on n class, ie. detritus_0, detritus_1, ..., detritus_N
     """
+    # subset detritus from the training set (features)
     detritus = data[data['labels'] == 'detritus']
     detritus = detritus.drop(columns = 'labels')
-    # now, we can scale the data
-    X = detritus.to_numpy()
+
+    # get the mean and variance for scaling the test set later 
+    #X = detritus.to_numpy() # actually not needed for the standard scaler to work
+    standard_scaler.fit(detritus)
+    scale_mean = standard_scaler.mean_
+    scale_var = standard_scaler.var_
+
+    # now we can really scale (fit AND transform)
     x_scaled = standard_scaler.fit_transform(X)
     # now, do KMEANS
     kmeans = KMeans(n_clusters = n_class, random_state = 42, algorithm="elkan").fit(x_scaled)
     kmeans_labels = kmeans.labels_
+    coord_centroids = kmeans.cluster_centers_
     new_detritus = ['detritus_' + str(det) for det in kmeans_labels]
     detritus['labels'] = new_detritus
     data.update(detritus) # update directly the dataset
-    return(data)
+
+    # save data for later use
+    np.save('coord_centroids.npy', coord_centroids)
+    np.save('scale_mean.npy', scale_mean)
+    np.save('scale_var.npy', scale_var)
+
+    return(data, scale_mean, scale_var, coord_centroids)

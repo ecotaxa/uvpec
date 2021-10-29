@@ -120,7 +120,7 @@ def main():
     else:
         print('Classes of detritus: '+str(n_detritus))
         print('Kmeans in progress...')
-        uvpec.create_detritus_classes(n_detritus, df_train)
+        df_train, scale_mean, scale_var, coord_centroids = uvpec.create_detritus_classes(n_detritus, df_train)
         print('Done.')
        # print(df_train.head(n=40))
 
