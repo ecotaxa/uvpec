@@ -62,12 +62,14 @@ def main():
 
     # Zip image folders in the output folder (source: https://www.geeksforgeeks.org/working-zip-files-python/)
     print('Zip image folders')
-    file_paths = uvpec.custom.get_all_file_paths(path_to_subfolders)
+    #file_paths = uvpec.custom.get_all_file_paths(path_to_subfolders)
 
     # writing files to a zipfile
     if(os.path.isfile(os.path.join(output_dir, features_ID+'_images.zip')) == True):
         print('Images have already been zipped !')
     else:
+        print('Images are being zipped...')
+        file_paths = uvpec.custom.get_all_file_paths(path_to_subfolders)
         with ZipFile(os.path.join(output_dir, features_ID+'_images.zip'),'w') as zip:
             # writing each file one by one
             for file in file_paths:
