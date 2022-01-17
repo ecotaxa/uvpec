@@ -64,6 +64,9 @@ def read_config(user_config_file):
     # num_trees_CV
     assert isinstance(cfg['xgboost']['num_trees_CV'], (int)), 'xgboost > num_trees_cv should be an integer'
 
+    # use C for extracting features
+    assert isinstance(cfg['language']['use_C'], (bool)), 'use_C should be a boolean'
+
     # add the configuration to the log
     log.info(cfg)
 

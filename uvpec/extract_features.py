@@ -3,7 +3,7 @@ from uvpec.custom import get_uvp6_features
 import os
 import pandas as pd
 
-def extract_features(path_to_subfolders):
+def extract_features(path_to_subfolders, use_C):
     """
     Function that extracts features from images of plankton given in specific subfolders.
     It outputs a dataset of features with their associated label.
@@ -31,7 +31,7 @@ def extract_features(path_to_subfolders):
             label = folder
 
             # get thumbnail features using the uvp6lib function and append to dataset
-            F = get_uvp6_features(os.path.join(path_to_subfolders, folder, image), threshold)
+            F = get_uvp6_features(os.path.join(path_to_subfolders, folder, image), threshold, use_C)
             if len(F) > 0:  # test if feature extraction succeeded before appending to dataset
                 Features.append(F)
                 labels.append(label)

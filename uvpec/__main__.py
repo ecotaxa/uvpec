@@ -38,7 +38,7 @@ def main():
 
     # Read features ID
     features_ID = cfg['io']['features_ID']
-    
+
     # Generate unique key to have a unique identification (ID)
     key = generate(1, min_atom_len = 8, max_atom_len = 8).get_key() # unique key of 8 characters
 
@@ -59,6 +59,9 @@ def main():
 
     ### Extract features (pipeline - step 1)
     path_to_subfolders = cfg['io']['images_dir']
+
+    # should we use C/C++ to extract the features?
+    use_C = cfg['language']['use_C']
 
     # Zip image folders in the output folder (source: https://www.geeksforgeeks.org/working-zip-files-python/)
     print('Zip image folders')
@@ -84,7 +87,7 @@ def main():
         print("Features file does not exist...Extracting features...")
         # extraction of features 
         # note: We will loose some images that are empty (full black images) so some messages will be printed in the console, this is a normal behaviour
-        dataset = uvpec.extract_features(path_to_subfolders)
+        dataset = uvpec.extract_features(path_to_subfolders, use_C)
         # save dataset
         dataset.to_feather(os.path.join(output_dir, features_ID+'.feather'))
         print("We are done with the extraction of features, data have been saved")
