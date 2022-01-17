@@ -1,8 +1,8 @@
-import setuptools
-
+from setuptools import Extension, setup
+from Cython.Build import cythonize
 # help here : https://github.com/pypa/sampleproject/blob/main/setup.py and https://packaging.python.org/guides/distributing-packages-using-setuptools/
 
-setuptools.setup(
+setup(
         # metadata
         name='uvpec',
         version='0.0',
@@ -25,6 +25,8 @@ setuptools.setup(
             'uvpec': ['config.yaml'],
          },
         python_requires='>=3.6', # check if that is true
+        ext_modules=cythonize([
+            Extension("cython_uvp6", ["cython_uvp6.pyx"], language="c++"),
         install_requires=[
             'numpy==1.19.5', # check for sup sign
             'pandas==1.2.1',
@@ -33,16 +35,6 @@ setuptools.setup(
             'xgboost==1.3.3',
             'sklearn==0.0',
             'pyarrow==3.0.0',
-            'key-generator==1.0.3',
-            'Cython==0.29.22' # For the moment, creation of setup for cython only because we first need to have it installed...
+            'key-generator==1.0.3'
         ]
 )
-
-from setuptools import Extension, setup
-from Cython.Build import cythonize
-setup(
-    ext_modules=cythonize([
-        Extension("cython_uvp6", ["cython_uvp6.pyx"], language="c++")
-    ])
-)
-
