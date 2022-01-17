@@ -6,7 +6,7 @@ from math import sqrt, atan2
 from collections import OrderedDict
 
 # import the special C pythonized package
-from cython_uvp6 import py.get_features
+from cython_uvp6 import py_get_features
 
 def get_uvp6_features(imagefilename, threshold, use_C):
     """  
@@ -60,7 +60,7 @@ def get_uvp6_features(imagefilename, threshold, use_C):
     
     if use_C is True:
         # execute C code
-        cfeatures = py.get_features(img, region, threshold)
+        cfeatures = py_get_features(img, region, threshold)
         
         # build an output ordered dict with the features vector
         # ATTENTION : feature insertion order is VERY important,
