@@ -33,8 +33,16 @@ setuptools.setup(
             'xgboost==1.3.3',
             'sklearn==0.0',
             'pyarrow==3.0.0',
-            'key-generator==1.0.3'
+            'key-generator==1.0.3',
+            'Cython==0.29.22' # For the moment, creation of setup for cython only because we first need to have it installed...
         ]
 )
 
-        
+from setuptools import Extension, setup
+from Cython.Build import cythonize
+setup(
+    ext_modules=cythonize([
+        Extension("cython_uvp6", ["cython_uvp6.pyx"], language="c++")
+    ])
+)
+
