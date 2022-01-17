@@ -1,3 +1,4 @@
+import setuptools
 from setuptools import Extension, setup
 from Cython.Build import cythonize
 # help here : https://github.com/pypa/sampleproject/blob/main/setup.py and https://packaging.python.org/guides/distributing-packages-using-setuptools/
@@ -26,7 +27,7 @@ setup(
          },
         python_requires='>=3.6', # check if that is true
         ext_modules=cythonize([
-            Extension("cython_uvp6", ["cython_uvp6.pyx"], language="c++"),
+            Extension("cython_uvp6", ["cython_uvp6.pyx"], language="c++")]),
         install_requires=[
             'numpy==1.19.5', # check for sup sign
             'pandas==1.2.1',
