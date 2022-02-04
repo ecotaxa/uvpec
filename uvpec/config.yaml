@@ -12,4 +12,4 @@ xgboost:
   subsampling_percentage: 20
   num_trees_CV: 500
 language:
-  use_C: True
+  use_C: true
