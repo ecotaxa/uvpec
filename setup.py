@@ -36,6 +36,7 @@ setup(
             'xgboost==1.3.3',
             'sklearn==0.0',
             'pyarrow==3.0.0',
-            'key-generator==1.0.3'
+            'key-generator==1.0.3',
+            'pillow>=8.2.2'
         ]
 )
