@@ -6,15 +6,35 @@ Toolbox to train automatic classification models for UVP6 images.
 
 First, you need to make sure that you have the two python libraries `setuptools` and `cython` installed on your computer. If you do not have them, run `pip3 install --user setuptools cython`
 
-Then, to install the package, run `pip3 install --user git+https://github.com/ecotaxa/uvpec` in a terminal. You can also use the SSH version with `pip3 install --user git+ssh://git@github.com/ecotaxa/uvpec.git`.
-Bingo ! You have now a great `uvpec` package installed on your computer, congratulations ! You can check the version in your terminal with `pip list | grep uvpec`
+Then, to install the package, run `python -m pip install git+https://github.com/ecotaxa/uvpec` in a terminal. You can also use the SSH version with `python -m pip install git+ssh://git@github.com/ecotaxa/uvpec.git`.
+Bingo ! You have now a great `uvpec` package installed on your computer, congratulations ! You can check if it is installed by running in your terminal `pip list | grep uvpec`
+
+### How to clone the repository ?
+
+Run `git clone https://github.com/ecotaxa/uvpec.git` for HTTPS or `git clone git@github.com:ecotaxa/uvpec.git` for SSH.
 
 ### How to use the package?
 
-Just make a nice `config.yaml` file containing the name of the folder where you want to keep the outputs and the name of the folder containing the image subfolders. /!\ The folders containing the images should have names that strictly fit with the EcoTaxa nomenclature (see the .csv for that). /!\
-Then, write in your terminal `uvpec config.yaml` and wait for the magic to happen !
+In order to use `uvpec` and train classification models for plankton (UVP6) images, you have to create a `config.yaml` file. Don't panic, you have an example of such a file in your cloned repository in `uvpec/uvpec/config.yaml`. In the latter, you need to specify 2 things : some input/output information and the parameters for the gradient boosted trees algorithm (XGBoost) that will train and create a classification model.
+For the input/ouput (io), you need to specify:
+  - An output directory, where the model and related information will be exported
+  - An image directory, where your well organized folders with plankton images are. Ideally, the folders' name (your organisms) should already exist in EcoTaxa). There is a csv in the cloned repository that you can check
+  - The name of your features file. If it does not already exist, it will be created so give it a great name !
 
-Once it is done, you should have everything you need in the output folder you specified. 
+Then, for the XGBoost parameters, you need to specify:
+  - An initialization seed `random_state`. It is important if you build multiple models with a different XGBoost configuration. The number is not important, you can keep 42 with trustgit clone git@github.com:ecotaxa/uvpec.git
+
+  - A number of cores `n_jobs` that will depend on the computational power of your machine or server
+  - The learning rate
+  - The maximum depth of a tree `max_depth`. For technical reasons, it is forbidden to go beyond 7
+  - A weight or `weight_sensitivity` that represents the weight we want to put on biological classes during the training because eh, we all know that 90% of images is marine snow
+  - `detritus_subsampling` can be used if you want to undersample your training set. Keep it to 'False' if you don't want to use it
+  - `subsampling_percentage` is about how much you want to undersample the 'detritus' class of your training set
+  - `num_trees_CV` stands for the number of rounds you want to use for the cross-validation. The latter is use to determine the optimal number of rounds before overfitting. The bigger the number, the longer it takes to process
+
+You will also notice that there is one last thing. `use_C` gives the possibility to extract the features from images using a C++ version. We advise to keep it to 'True' because it is much faster than the python version.
+
+Once you are done, run `uvpec config.yaml` in your terminal and wait for the magic to happen ! You should get everything you need in the output folder you specified. 
 
 ### Last but not least
 
@@ -26,8 +46,7 @@ To check if the pipeline is not broken somewhere, we have implemented some tests
 Just a reminder, if you see some errors during the test, check if you did not forget to run `uvpec config.yaml`.  
 `pytest` is not automatically present on your laptop. To install it, `pip install --user pytest`
 
-##### For more information on the developer mode
-https://stackoverflow.com/questions/19048732/python-setup-py-develop-vs-install
+### How to uninstall or if you want to update the package
 
-##### For a simple installation (not in developer mode) -- OR to update the package (/!\ you should first `pip uninstall uvpec` before reinstalling it)
+Run `pip uninstall uvpec` before reinstalling it
 Run `pip3 install --user git+https://github.com/ecotaxa/uvpec`
