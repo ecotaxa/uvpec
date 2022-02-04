@@ -2,20 +2,14 @@
 
 Toolbox to train automatic classification models for UVP6 images.
 
-### How to install the package on your machine and test it in 'developer mode' ?
+### How to install the package ?
 
-The main interest of the developer mode is to :
+First, you need to make sure that you have the two python libraries `setuptools` and `cython` installed on your computer. If you do not have them, run `pip3 install --user setuptools cython`
 
-1. Avoid to install your unfinished package randomly on your computer, making it easy to just remove it once you are done.
-2. It __should__ be easy to uninstall it without any tracks left on your machine.
+Then, to install the package, run `pip3 install --user git+https://github.com/ecotaxa/uvpec` in a terminal. You can also use the SSH version with `pip3 install --user git+ssh://git@github.com/ecotaxa/uvpec.git`.
+Bingo ! You have now a great `uvpec` package installed on your computer, congratulations ! You can check the version in your terminal with `pip list | grep uvpec`
 
-Now, how do we proceed?
-
-First, you need to make sure that you have setuptools and cython installed on your computer. To do so, use `pip install --user setuptools cython`
-
-Then, git clone the project and write `python setup.py develop` in your terminal (in your remote uvpec folder). Bingo ! You have now a great uvpec package installed on your computer, congratulations !
-
-### How do we use the package?
+### How to use the package?
 
 Just make a nice `config.yaml` file containing the name of the folder where you want to keep the outputs and the name of the folder containing the image subfolders. /!\ The folders containing the images should have names that strictly fit with the EcoTaxa nomenclature (see the .csv for that). /!\
 Then, write in your terminal `uvpec config.yaml` and wait for the magic to happen !
