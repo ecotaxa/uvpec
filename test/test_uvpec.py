@@ -18,5 +18,5 @@ def test_inflexion():
 
 # check if models are created
 def test_models():
-    arr = glob.glob('../test_output/xgboost_*.model')
+    arr = glob.glob('../test_output/Muvpec_*.model')
     assert(len(arr)>0) == True
