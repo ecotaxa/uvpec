@@ -28,11 +28,11 @@ Then, for the XGBoost parameters, you need to specify:
   - The learning rate
   - The maximum depth of a tree `max_depth`. For technical reasons, it is forbidden to go beyond 7
   - A weight or `weight_sensitivity` that represents the weight we want to put on biological classes during the training because eh, we all know that 90% of images is marine snow
-  - `detritus_subsampling` can be used if you want to undersample your training set. Keep it to 'False' if you don't want to use it
+  - `detritus_subsampling` can be used if you want to undersample your training set. Keep it to 'false' if you don't want to use it
   - `subsampling_percentage` is about how much you want to undersample the 'detritus' class of your training set
   - `num_trees_CV` stands for the number of rounds you want to use for the cross-validation. The latter is use to determine the optimal number of rounds before overfitting. The bigger the number, the longer it takes to process
 
-You will also notice that there is one last thing. `use_C` gives the possibility to extract the features from images using a C++ version. We advise to keep it to 'True' because it is much faster than the python version.
+You will also notice that there is one last thing. `use_C` gives the possibility to extract the features from images using a C++ version. We advise to keep it to 'true' because it is much faster than the python version.
 
 Once you are done, run `uvpec config.yaml` in your terminal and wait for the magic to happen ! You should get everything you need in the output folder you specified. 
 
