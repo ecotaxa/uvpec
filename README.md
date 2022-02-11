@@ -22,7 +22,7 @@ For the input/ouput (io), you need to specify:
   - An image directory, where your well organized folders with plankton images are. Ideally, the folders' name (your organisms) should already exist in EcoTaxa. There is a csv in the cloned repository that you can check
   - The name of your features file. If it does not already exist, it will be created so give it a great name !
 
-Then, for the XGBoost parameters, you need to specify:
+Then, for XGBoost parameters, you need to specify:
   - An initialization seed `random_state`. It is important if you build multiple models with a different XGBoost configuration. The number is not important, you can keep 42 with trust.
 
   - A number of cores `n_jobs` that will depend on the computational power of your machine or server
@@ -39,15 +39,17 @@ Once you are done, run `uvpec config.yaml` in your terminal and wait for the mag
 
 ### Last but not least
 
-We have prepared a `test` folder in our package. This allows you to check if the pipeline works without lauching a full process that will take a good amount of time. It is always a good idea to check if everything works before using it on a full training set and also after some package updates. To use it,
+We have prepared a `test` folder in our package. This allows you to check if the pipeline works without launching a full process that will take a significant amount of time. It is always a good idea to check if everything works well before using it on a full training set and also after some package updates. To use it,
 navigate in the test folder using `cd test` then run `uvpec config.yaml`. You should see something going on in your terminal. Don't forget to check your output folder now !
 
-In addition, there is also another test that you can run in order to see if the pipeline is not broken somewhere. For that,  run `pytest` (that actually looks for test_uvpec.py) in your terminal. Everything should now be taken care of and if you only see green lights it means that all tests went smoothly! If not, that means something went wrong and the error messages can help us find where the leak is. 
+In addition, there is also another test that you can run in order to see if the pipeline is not broken somewhere. For that,  run `pytest` (that actually looks for test_uvpec.py) in your terminal. Everything should now be taken care of and if you only see green lights it means that all tests went smoothly! If not, that means something went wrong and the error messages can help you find where the leak is. 
 
 Just a reminder, if you see some errors during the test, check if you did not forget to run `uvpec config.yaml`.  
 `pytest` is not automatically present on your laptop. To install it, `pip install --user pytest`
 
-### How to uninstall or what to do if you want to update the package ?
+### How to uninstall the package ?
 
-Run `pip uninstall uvpec` before reinstalling it
-Run `pip3 install --user git+https://github.com/ecotaxa/uvpec`
+Run `pip uninstall uvpec`
+
+### How to update the package ?
+Run `pip uninstall uvpec` before reinstalling it then run`pip3 install --user git+https://github.com/ecotaxa/uvpec`
