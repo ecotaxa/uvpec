@@ -2,6 +2,8 @@
 
 Toolbox to train automatic classification models for UVP6 images.
 
+For smooth operation of the toolbox, the toolbox python package must be installed and the toolbox git repository cloned.
+
 ### How to install the package ?
 
 First, you need to make sure that you have the two python libraries `setuptools` and `cython` installed on your computer. If you do not have them, run `pip3 install --user setuptools cython`
