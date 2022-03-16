@@ -36,5 +36,6 @@ def create_taxoconf(output_dir, dict_classes, MODEL_REF, key):
     for i in range(n_classes):
         f = open(os.path.join(output_dir, "TAXO_CONF_NKE_0_"+key+".txt"), "a")
         f.write("// Parameter name: Taxo_ID_for_class_"+f"{i:02d}"+", Integer type, range: 0 to 9999999\n// Description: Taxonomic unique identifier for model's class "+f"{i:02d}"+". Automatically filled during model creation/export, do not edit\n// Only ID's for classes up to (Model_nb_classes - 1) must be declared, others will be automatically set to zero\n\nTaxo_ID_for_class_"+f"{i:02d}"+" = "+str(classes_id['id'][classes[i]])+"\n\n")
-        
+       f.close()
+
     print('Done.')
