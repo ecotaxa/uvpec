@@ -18,7 +18,7 @@ def extract_features(path_to_subfolders, use_C):
         raise ValueError('Max number of classes is 40.')
 
     # Threshold value used to split image pixels into foreground (> threshold) and background (<= threshold) pixels.
-    threshold = 15
+    threshold = 10#15
     
     # create empty lists to construct the dataset
     Features = list()
