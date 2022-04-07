@@ -69,7 +69,7 @@ def main():
         print('Images have already been zipped !')
     else:
         print('Images are being zipped...')
-        file_paths = uvpec.custom.get_all_file_paths(path_to_subolders)
+        file_paths = uvpec.custom.get_all_file_paths(path_to_subfolders)
         with ZipFile(os.path.join(output_dir, features_ID+'_images.zip'),'w') as zip:
             # writing each file one by one
             for file in file_paths:
