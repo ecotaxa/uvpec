@@ -59,7 +59,7 @@ def read_config(user_config_file):
     assert isinstance(cfg['xgboost']['subsampling_percentage'], (int)), 'xgboost > subsampling_percentage should be in ]0,100['
     
     # weight_sensitivity
-    assert isinstance(cfg['xgboost']['weight_sensitivity'], (float)), 'xgboost > weigth_sensitivity should be a positive float'
+    #assert isinstance(cfg['xgboost']['weight_sensitivity'], (float)), 'xgboost > weigth_sensitivity should be a positive float'
     
     # num_trees_CV
     assert isinstance(cfg['xgboost']['num_trees_CV'], (int)), 'xgboost > num_trees_cv should be an integer'

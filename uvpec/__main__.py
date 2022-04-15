@@ -105,6 +105,7 @@ def main():
     detritus_subsampling = cfg['xgboost']['detritus_subsampling']
     subsampling_percentage = cfg['xgboost']['subsampling_percentage']
     weight_sensitivity = cfg['xgboost']['weight_sensitivity']
+    weight_sensitivity = weight_sensitivity/100 # trouble with floating points in my bash file for the grid search..
     num_trees_CV = cfg['xgboost']['num_trees_CV']
 
     # subsample detritus
