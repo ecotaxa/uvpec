@@ -102,6 +102,7 @@ def main():
     detritus_subsampling = cfg['xgboost']['detritus_subsampling']
     subsampling_percentage = cfg['xgboost']['subsampling_percentage']
     weight_sensitivity = cfg['xgboost']['weight_sensitivity']
+    weight_sensitivity = weight_sensitivity/100 # troubles with my bash for the grissearch
     num_trees_CV = cfg['xgboost']['num_trees_CV']
     n_detritus = cfg['xgboost']['n_detritus']
 
