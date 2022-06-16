@@ -14,13 +14,13 @@ def extract_features(path_to_subfolders, use_C):
     _, folderList, _ = next(os.walk(path_to_subfolders))
     
     # split taxon names and their IDs from EcoTaxa
-    folderList = [folder.split('__') for folder in folderList]
+    folderList_splitted = [folder.split('__') for folder in folderList]
 
     # create a dict with taxon names and their relevant ID
-    dico_id = {folderList[i][0] : folderList[i][1] for i in range(len(folderList))}
+    dico_id = {folderList_splitted[i][0] : folderList_splitted[i][1] for i in range(len(folderList_splitted))}
 
     # back to regular list with only taxon names
-    folderList = list(dico_id.keys())
+    folderList_splitted = list(dico_id.keys())
 
     # saveguard : the number of image folders should not be greater than 40 (technical limit, see with Marc Picheral/Fabio Dias/Camille Catalano)
     if len(folderList) > 40:
@@ -37,7 +37,7 @@ def extract_features(path_to_subfolders, use_C):
         print(folder)
         _, _, images = next(os.walk(os.path.join(path_to_subfolders, folder)))
         for image in images:
-            label = folder
+            label = folder.split('__')[0]
 
             # get thumbnail features using the uvp6lib function and append to dataset
             F = get_uvp6_features(os.path.join(path_to_subfolders, folder, image), threshold, use_C)
