@@ -12,6 +12,15 @@ def extract_features(path_to_subfolders, use_C):
     # https://stackoverflow.com/questions/3207219/how-do-i-list-all-files-of-a-directory
     # Lists of all subfolders within the path_to_subfolders
     _, folderList, _ = next(os.walk(path_to_subfolders))
+    
+    # split taxon names and their IDs from EcoTaxa
+    folderList = [folder.split('__') for folder in folderList]
+
+    # create a dict with taxon names and their relevant ID
+    dico_id = {folderList[i][0] : folderList[i][1] for i in range(len(folderList))}
+
+    # back to regular list with only taxon names
+    folderList = list(dico_id.keys())
 
     # saveguard : the number of image folders should not be greater than 40 (technical limit, see with Marc Picheral/Fabio Dias/Camille Catalano)
     if len(folderList) > 40:
@@ -40,4 +49,4 @@ def extract_features(path_to_subfolders, use_C):
     dataset = pd.DataFrame(Features)
     dataset['labels'] = labels
     
-    return(dataset)
+    return(dataset, dico_id)

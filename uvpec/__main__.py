@@ -87,7 +87,7 @@ def main():
         print("Features file does not exist...Extracting features...")
         # extraction of features 
         # note: We will loose some images that are empty (full black images) so some messages will be printed in the console, this is a normal behaviour
-        dataset = uvpec.extract_features(path_to_subfolders, use_C)
+        dataset, dico_id = uvpec.extract_features(path_to_subfolders, use_C)
         # save dataset
         dataset.to_feather(os.path.join(output_dir, features_ID+'.feather'))
         print("We are done with the extraction of features, data have been saved")
@@ -137,7 +137,7 @@ def main():
     
     # create TAXOCONF file
     MODEL_REF = 'Muvpec_'+key
-    uvpec.create_taxoconf(output_dir, class_weights, MODEL_REF, key)
+    uvpec.create_taxoconf(output_dir, dico_id, MODEL_REF, key)
 
 if __name__ == "__main__":
     main()

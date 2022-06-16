@@ -1,18 +1,13 @@
 import os
 import pandas as pd
   
-def create_taxoconf(output_dir, dict_classes, MODEL_REF, key):
+def create_taxoconf(output_dir, dict_id, MODEL_REF, key):
     """
     Function that creates a taxonomic configuration file for the UVP6.
     """
     
-    # read IDs from EcoTaxa (csv file) and create a dictionnary from it
-    print('Read EcoTaxa IDs')
-    classes_id = pd.read_csv('../id_classes_ecotaxa.csv')
-    classes_id.set_index(keys = 'display_name', inplace=True) # rename indices with label names
-    classes_id = classes_id.to_dict() # convert to a dict()
     # check if dict exists
-    if type(classes_id) == dict:
+    if type(dict_id) == dict:
         print('OK.')
     else:
         raise TypeError("Dictionnary with EcoTaxa's IDs does not exist.") 
@@ -21,8 +16,8 @@ def create_taxoconf(output_dir, dict_classes, MODEL_REF, key):
     print('Create TAXOCONF file')
     
     # number of classes in the current model
-    n_classes = len(dict_classes)
-    classes = list(dict_classes.keys()) # list of all classes in the CURRENT model
+    n_classes = len(dict_id)
+    classes = list(dict_id.keys()) # list of all classes in the CURRENT model
     
     # name of the taxo configuration file
     TAXOCONFNAME = 'TAXO_NKE_0'
@@ -35,7 +30,7 @@ def create_taxoconf(output_dir, dict_classes, MODEL_REF, key):
     # append data for classes
     for i in range(n_classes):
         f = open(os.path.join(output_dir, "TAXO_NKE_0_"+key+".txt"), "a")
-        f.write("// Parameter name: Taxo_ID_for_class_"+f"{i:02d}"+", Integer type, range: 0 to 9999999\n// Description: Taxonomic unique identifier for model's class "+f"{i:02d}"+". Automatically filled during model creation/export, do not edit\n// Only ID's for classes up to (Model_nb_classes - 1) must be declared, others will be automatically set to zero\nTaxo_ID_for_class_"+f"{i:02d}"+" = "+str(classes_id['id'][classes[i]])+"\n\n")
+        f.write("// Parameter name: Taxo_ID_for_class_"+f"{i:02d}"+", Integer type, range: 0 to 9999999\n// Description: Taxonomic unique identifier for model's class "+f"{i:02d}"+". Automatically filled during model creation/export, do not edit\n// Only ID's for classes up to (Model_nb_classes - 1) must be declared, others will be automatically set to zero\nTaxo_ID_for_class_"+f"{i:02d}"+" = "+str(dict_id[classes[i]])+"\n\n")
         f.close()
 
     print('Done.')
