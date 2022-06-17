@@ -62,7 +62,7 @@ def main():
 
     if evaluate_only:
         print('no training, model evaluation only')
-        uvpec.evaluate_model(n_jobs, test_set, xgb_model,'toto', False, output_dir, key) # toto because we don't use the inflexion file in the evaluation process only
+        uvpec.evaluate_model(n_jobs, test_set, xgb_model,'toto', False, output_dir, key, True) # toto because we don't use the inflexion file in the evaluation process only
         sys.exit(0) # evaluation only, we stop here
 
     # Check if output directory exists
