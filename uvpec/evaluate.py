@@ -10,10 +10,10 @@ import seaborn as sn
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, balanced_accuracy_score, precision_score, recall_score, f1_score, pairwise_distances
 from uvpec.custom import label_to_int
 
-def evaluate_model(n_jobs, df_test, xgb_model, inflexion_filename, output_dir, key):
+def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, output_dir=output_dir, key=key):
     
     # test set
-    df_test = pd.read_feather(df_test)
+    df_test = pd.read_feather(test_set_path)
 
     # create a dict() to convert labels to int (for xgboost)
     dico_label = {}
@@ -71,7 +71,7 @@ def evaluate_model(n_jobs, df_test, xgb_model, inflexion_filename, output_dir, k
     ax.set_xlabel('number of boosting rounds')
     fig = ax.get_figure()
     #fig.suptitle(inflexion_filename)
-    fig.savefig(os.path.join(output_dir,'logloss_',str(key),'.jpg')
+    fig.savefig(os.path.join(output_dir,'logloss_'+str(key)+'.jpg')
     fig.close()
 
     # Confusion matrix
@@ -88,7 +88,7 @@ def evaluate_model(n_jobs, df_test, xgb_model, inflexion_filename, output_dir, k
     plt.xlabel('Predicted label', fontsize=14)
     plt.title("Confusion matrix for "+str(model_to_use), fontsize=30)
     #plt.show()
-    plt.savefig(os.path.join(output_dir,'Muvpec_',str(key),'_confusion_matrix.jpg')
+    plt.savefig(os.path.join(output_dir,'Muvpec_'+str(key)+'_confusion_matrix.jpg')
     plt.close()
 
     # Classification report
@@ -115,5 +115,5 @@ def evaluate_model(n_jobs, df_test, xgb_model, inflexion_filename, output_dir, k
     plt.figure(figsize = (20,20))
     sn.heatmap(classif_report, annot=True, vmin=0, vmax=1.0, yticklabels = annot, cmap="viridis")
     #plt.show()
-    plt.savefig(os.path.join(output_dir,'Muvpec_',str(key),'_classif_report.jpg')
+    plt.savefig(os.path.join(output_dir,'Muvpec_'+str(key)+'_classif_report.jpg')
     plt.close()
