@@ -1,7 +1,9 @@
 io:
   output_dir: /path/to/output
   images_dir: /path/to/image_folders 
-  features_ID: features # name of the features file
+  features_ID: features # name of the training set if it exits. If it does not exist, it will be the name of the training set that will be created and saved.
+  test_set: /path/to/test_set # can be kept as it is if there is no need for an evaluation
+  model: /path/to/model # can be kept as it is if there is no need for an evaluation or if you train AND evaluate, it will be generated automatically.
 xgboost:
   random_state: 42
   n_jobs: 12
@@ -13,3 +15,6 @@ xgboost:
   num_trees_CV: 500
 language:
   use_C: true
+process:
+  evaluate_only: false
+  train_only: false

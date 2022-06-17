@@ -39,6 +39,14 @@ def main():
     # Read features ID
     features_ID = cfg['io']['features_ID']
 
+    # read test set and xgboost model (can be dummy file paths if there is no evaluation)
+    test_set = cfg['io']['test_set']
+    xgb_model = cfg['io']['model']
+
+    # read process
+    evaluate_only = cfg['process']['evaluate_only']
+    train_only = cfg['process']['train_only']
+
     # Generate unique key to have a unique identification (ID)
     key = generate(1, min_atom_len = 8, max_atom_len = 8).get_key() # unique key of 8 characters
 
@@ -105,7 +113,6 @@ def main():
     detritus_subsampling = cfg['xgboost']['detritus_subsampling']
     subsampling_percentage = cfg['xgboost']['subsampling_percentage']
     weight_sensitivity = cfg['xgboost']['weight_sensitivity']
-    weight_sensitivity = weight_sensitivity/100 # trouble with floating points in my bash file for the grid search..
     num_trees_CV = cfg['xgboost']['num_trees_CV']
 
     # subsample detritus
@@ -138,6 +145,16 @@ def main():
     # create TAXOCONF file
     MODEL_REF = 'Muvpec_'+key
     uvpec.create_taxoconf(output_dir, dico_id, MODEL_REF, key)
+
+    # evaluate model
+    if train_only:
+        print('training only, no evaluation')
+    elif evaluate_only:
+        # do something
+    else:
+        inflexion_filename = os.path.join(output_dir, 'inflexion_point_', str(key), '.feather')
+        xgb_model = os.path.join(output_dir, 'Muvpec_', str(key), '.model'
+        uvpec.evaluate_model(n_jobs, test_set, inflexion_filename, output_dir, key)
 
 if __name__ == "__main__":
     main()
