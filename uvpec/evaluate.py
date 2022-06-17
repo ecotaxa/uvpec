@@ -10,7 +10,7 @@ import seaborn as sn
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, balanced_accuracy_score, precision_score, recall_score, f1_score, pairwise_distances
 from uvpec.custom import label_to_int, int_to_label
 
-def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, output_dir, key):
+def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, use_inflexion, output_dir, key):
     
     # test set
     df_test = pd.read_feather(test_set_path)
@@ -65,15 +65,18 @@ def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, output_
     print(f'Weighted living recall is {living_recall_w}')
     print(f'Weighted living f1 score is {living_f1_w}')
 
-    # logloss plot (obtained after cross-validation)
-    dataCV = pd.read_feather(inflexion_filename)
-    dataCV = dataCV.reset_index()
-    ax = dataCV.plot(x = 'index', y = 'test-mlogloss-mean')
-    ax.set_xlabel('number of boosting rounds')
-    fig = ax.get_figure()
-    #fig.suptitle(inflexion_filename)
-    fig.savefig(os.path.join(output_dir,'logloss_'+str(key)+'.jpg'))
-    #fig.close()
+    if use_inflexion:
+        # logloss plot (obtained after cross-validation)
+        dataCV = pd.read_feather(inflexion_filename)
+        dataCV = dataCV.reset_index()
+        ax = dataCV.plot(x = 'index', y = 'test-mlogloss-mean')
+        ax.set_xlabel('number of boosting rounds')
+        fig = ax.get_figure()
+        #fig.suptitle(inflexion_filename)
+        fig.savefig(os.path.join(output_dir,'logloss_'+str(key)+'.jpg'))
+        #fig.close()
+    else:
+        continue
 
     # Confusion matrix
     cm = confusion_matrix(true_classes, predicted_classes, normalize='true')

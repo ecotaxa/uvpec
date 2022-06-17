@@ -44,8 +44,13 @@ def main():
     xgb_model = cfg['io']['model']
 
     # read process
-    evaluate_only = cfg['process']['evaluate_only']
     train_only = cfg['process']['train_only']
+    evaluate_only = cfg['process']['evaluate_only']
+
+    if evaluate_only:
+        print('no training, model evaluation only')
+        uvpec.evaluate_model(n_jobs, test_set, xgb_model, inflexion_filename, False, output_dir, key)
+        sys.exit(main()) # evaluation only, we stop here
 
     # Generate unique key to have a unique identification (ID)
     key = generate(1, min_atom_len = 8, max_atom_len = 8).get_key() # unique key of 8 characters
@@ -112,7 +117,7 @@ def main():
     max_depth = cfg['xgboost']['max_depth']
     detritus_subsampling = cfg['xgboost']['detritus_subsampling']
     subsampling_percentage = cfg['xgboost']['subsampling_percentage']
-    weight_sensitivity = cfg['xgboost']['weight_sensitivity']
+    weight_sensitivity = cfg['xgboost']['weight_sensitivity'] # note : in a previous version, I divided this number by 100 to work with int instead of floats so no worries about config_3e4f40fc.yaml with a sensitivityy of 25 instead of 0.25)
     num_trees_CV = cfg['xgboost']['num_trees_CV']
 
     # subsample detritus
@@ -149,8 +154,7 @@ def main():
     # evaluate model
     if train_only:
         print('training only, no evaluation')
-    elif evaluate_only:
-        print('evaluation only')
+        sys.exit(main())
     else:
         inflexion_filename = os.path.join(output_dir, 'inflexion_point_'+str(key)+'.feather')
         xgb_model = os.path.join(output_dir, 'Muvpec_'+str(key)+'.model')
