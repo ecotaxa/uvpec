@@ -57,13 +57,13 @@ def main():
     train_only = cfg['process']['train_only']
     evaluate_only = cfg['process']['evaluate_only']
 
+    # Generate unique key to have a unique identification (ID)
+    key = generate(1, min_atom_len = 8, max_atom_len = 8).get_key() # unique key of 8 characters
+
     if evaluate_only:
         print('no training, model evaluation only')
         uvpec.evaluate_model(n_jobs, test_set, xgb_model,'toto', False, output_dir, key) # toto because we don't use the inflexion file in the evaluation process only
         sys.exit(0) # evaluation only, we stop here
-
-    # Generate unique key to have a unique identification (ID)
-    key = generate(1, min_atom_len = 8, max_atom_len = 8).get_key() # unique key of 8 characters
 
     # Check if output directory exists
     if not os.path.exists(output_dir):
