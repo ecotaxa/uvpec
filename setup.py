@@ -27,7 +27,7 @@ setup(
          },
         python_requires='>=3.6', # check if that is true
         ext_modules=cythonize([
-            Extension("cython_uvp6", ["cython_uvp6.pyx"], language="c++")]),
+            Extension("cython_uvp6", ["cython_uvp6.pyx"], language="c++"), include_dirs=[numpy.get_include()]),
         install_requires=[
             'numpy==1.19.5', # check for sup sign
             'pandas==1.2.1',
