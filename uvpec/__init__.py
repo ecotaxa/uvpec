@@ -9,3 +9,4 @@ from .save_cross_validation import *
 from .train import *
 from .save_model import *
 from .create_taxoconf import *
+from .evaluate import *
