@@ -10,7 +10,7 @@ import seaborn as sn
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, balanced_accuracy_score, precision_score, recall_score, f1_score, pairwise_distances
 from uvpec.custom import label_to_int, int_to_label
 
-def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, use_inflexion, output_dir, key):
+def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, use_inflexion, output_dir, key, evaluate_only = False):
     
     # test set
     df_test = pd.read_feather(test_set_path)
@@ -89,8 +89,12 @@ def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, use_inf
     plt.ylabel('True label', fontsize=14)
     plt.xlabel('Predicted label', fontsize=14)
     #plt.show()
-    plt.savefig(os.path.join(output_dir,'Muvpec_'+str(key)+'_confusion_matrix.jpg'))
-    plt.close()
+    if evaluate_only == False:
+        plt.savefig(os.path.join(output_dir,'Muvpec_'+str(key)+'_confusion_matrix.jpg'))
+        plt.close()
+    else:
+        plt.savefig(xgb_model.split('.')[0]+'_confusion_matrix.jpg')
+        plt.close()
 
     # Classification report
     classif_report = classification_report(true_classes, predicted_classes, output_dict=True)
@@ -116,5 +120,9 @@ def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, use_inf
     plt.figure(figsize = (20,20))
     sn.heatmap(classif_report, annot=True, vmin=0, vmax=1.0, yticklabels = annot, cmap="viridis")
     #plt.show()
-    plt.savefig(os.path.join(output_dir,'Muvpec_'+str(key)+'_classif_report.jpg'))
-    plt.close()
+    if evaluate_only == False:
+        plt.savefig(os.path.join(output_dir,'Muvpec_'+str(key)+'_classif_report.jpg'))
+        plt.close()
+    else:
+        plt.savefig(xgb_model.split('.')[0]+'_classif_report.jpg')
+        plt.close()
