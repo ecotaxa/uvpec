@@ -59,7 +59,7 @@ def main():
 
     if evaluate_only:
         print('no training, model evaluation only')
-        uvpec.evaluate_model(n_jobs, test_set, xgb_model, inflexion_filename, False, output_dir, key)
+        uvpec.evaluate_model(n_jobs, test_set, xgb_model, inflexion_filename = 'toto', False, output_dir, key)
         sys.exit(0) # evaluation only, we stop here
 
     # Generate unique key to have a unique identification (ID)
