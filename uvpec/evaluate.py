@@ -72,7 +72,7 @@ def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, output_
     fig = ax.get_figure()
     #fig.suptitle(inflexion_filename)
     fig.savefig(os.path.join(output_dir,'logloss_'+str(key)+'.jpg'))
-    fig.close()
+    #fig.close()
 
     # Confusion matrix
     cm = confusion_matrix(true_classes, predicted_classes, normalize='true')
