@@ -43,6 +43,16 @@ def main():
     test_set = cfg['io']['test_set']
     xgb_model = cfg['io']['model']
 
+    # read xgboost settings
+    random_state = cfg['xgboost']['random_state']
+    n_jobs = cfg['xgboost']['n_jobs']
+    learning_rate = cfg['xgboost']['learning_rate']
+    max_depth = cfg['xgboost']['max_depth']
+    detritus_subsampling = cfg['xgboost']['detritus_subsampling']
+    subsampling_percentage = cfg['xgboost']['subsampling_percentage']
+    weight_sensitivity = cfg['xgboost']['weight_sensitivity'] # note : in a previous version, I divided this number by 100 to work with int instead of floats so no worries about config_3e4f40fc.yaml with a sensitivityy of 25 instead of 0.25)
+    num_trees_CV = cfg['xgboost']['num_trees_CV']
+
     # read process
     train_only = cfg['process']['train_only']
     evaluate_only = cfg['process']['evaluate_only']
@@ -109,16 +119,6 @@ def main():
 
     # training_data
     df_train = dataset.copy()
-
-    # read xgboost settings
-    random_state = cfg['xgboost']['random_state']
-    n_jobs = cfg['xgboost']['n_jobs']
-    learning_rate = cfg['xgboost']['learning_rate']
-    max_depth = cfg['xgboost']['max_depth']
-    detritus_subsampling = cfg['xgboost']['detritus_subsampling']
-    subsampling_percentage = cfg['xgboost']['subsampling_percentage']
-    weight_sensitivity = cfg['xgboost']['weight_sensitivity'] # note : in a previous version, I divided this number by 100 to work with int instead of floats so no worries about config_3e4f40fc.yaml with a sensitivityy of 25 instead of 0.25)
-    num_trees_CV = cfg['xgboost']['num_trees_CV']
 
     # subsample detritus
     if detritus_subsampling:
