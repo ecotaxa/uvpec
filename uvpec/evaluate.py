@@ -10,7 +10,7 @@ import seaborn as sn
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, balanced_accuracy_score, precision_score, recall_score, f1_score, pairwise_distances
 from uvpec.custom import label_to_int
 
-def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, output_dir=output_dir, key=key):
+def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, output_dir, key):
     
     # test set
     df_test = pd.read_feather(test_set_path)
