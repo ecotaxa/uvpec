@@ -106,7 +106,7 @@ def main():
     if(os.path.isfile(os.path.join(output_dir, features_ID+'.feather')) == True):
         print('All features have already been extracted...Loading data')
         dataset = pd.read_feather(os.path.join(output_dir, features_ID+'.feather'))  
-        dico_id = np.load(os.path.join(output_dir, 'dico_id.npy'))
+        dico_id = np.load(os.path.join(output_dir, 'dico_id.npy'), allow_pickle=True)
     else:
         print("Features file does not exist...Extracting features...")
         # extraction of features 
