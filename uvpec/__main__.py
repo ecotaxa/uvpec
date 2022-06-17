@@ -158,7 +158,7 @@ def main():
     else:
         inflexion_filename = os.path.join(output_dir, 'inflexion_point_'+str(key)+'.feather')
         xgb_model = os.path.join(output_dir, 'Muvpec_'+str(key)+'.model')
-        uvpec.evaluate_model(n_jobs, test_set, xgb_model, inflexion_filename, output_dir, key)
+        uvpec.evaluate_model(n_jobs, test_set, xgb_model, inflexion_filename, True, output_dir, key)
 
 if __name__ == "__main__":
     main()
