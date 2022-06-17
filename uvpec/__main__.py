@@ -50,7 +50,7 @@ def main():
     if evaluate_only:
         print('no training, model evaluation only')
         uvpec.evaluate_model(n_jobs, test_set, xgb_model, inflexion_filename, False, output_dir, key)
-        sys.exit(main()) # evaluation only, we stop here
+        sys.exit(0) # evaluation only, we stop here
 
     # Generate unique key to have a unique identification (ID)
     key = generate(1, min_atom_len = 8, max_atom_len = 8).get_key() # unique key of 8 characters
@@ -154,7 +154,7 @@ def main():
     # evaluate model
     if train_only:
         print('training only, no evaluation')
-        sys.exit(main())
+        sys.exit(0)
     else:
         inflexion_filename = os.path.join(output_dir, 'inflexion_point_'+str(key)+'.feather')
         xgb_model = os.path.join(output_dir, 'Muvpec_'+str(key)+'.model')
