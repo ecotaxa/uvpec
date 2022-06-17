@@ -54,7 +54,8 @@ def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, output_
     living_precision_w = precision_score(true_classes, predicted_classes, labels=living_classes, average='weighted', zero_division=0)
     living_recall_w = recall_score(true_classes, predicted_classes, labels=living_classes, average='weighted', zero_division=0)
     living_f1_w = f1_score(true_classes, predicted_classes, labels=living_classes, average='weighted', zero_division=0)
-
+    
+    print('Here are some classification scores')
     print(f'Accuracy score is {accuracy}')
     print(f'Balanced accuracy score is {balanced_accuracy}')
     print(f'Macro living precision score is {living_precision}')
@@ -86,7 +87,6 @@ def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, output_
     plt.yticks(tick_marks, classes, fontsize=14)
     plt.ylabel('True label', fontsize=14)
     plt.xlabel('Predicted label', fontsize=14)
-    plt.title("Confusion matrix for "+str(model_to_use), fontsize=30)
     #plt.show()
     plt.savefig(os.path.join(output_dir,'Muvpec_'+str(key)+'_confusion_matrix.jpg'))
     plt.close()
