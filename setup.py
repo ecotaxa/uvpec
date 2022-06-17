@@ -29,7 +29,7 @@ setup(
         python_requires='>=3.6', # check if that is true
         ext_modules=cythonize([
             Extension("cython_uvp6", ["cython_uvp6.pyx"], language="c++")]),
-        include_dirs=[numpy.get_include()],
+        include_dirs=[numpy.get_include()], # had to add it because of an error on my local machine. See also here: https://stackoverflow.com/questions/14657375/cython-fatal-error-numpy-arrayobject-h-no-such-file-or-directory
         install_requires=[
             'numpy==1.19.5', # check for sup sign
             'pandas==1.2.1',
