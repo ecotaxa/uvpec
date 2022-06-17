@@ -150,7 +150,7 @@ def main():
     if train_only:
         print('training only, no evaluation')
     elif evaluate_only:
-        # do something
+        print('evaluation only')
     else:
         inflexion_filename = os.path.join(output_dir, 'inflexion_point_'+str(key)+'.feather')
         xgb_model = os.path.join(output_dir, 'Muvpec_'+str(key)+'.model')
