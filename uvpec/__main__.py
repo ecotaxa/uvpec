@@ -60,6 +60,15 @@ def main():
     # Generate unique key to have a unique identification (ID)
     key = generate(1, min_atom_len = 8, max_atom_len = 8).get_key() # unique key of 8 characters
 
+    # print error message if user wants both an evaluation only and a training only
+    if (evaluate_only and train_only):
+        print('It seems like you did not fill the configuration file correctly.')
+        print('If you want to train a model and evaluate it, choose evaluation_only: false and train_only: false')
+        print('If you only want an evaluation, choose evaluation_only: true and train_only: false')
+        print('If you only want to train a model, without the evaluation, choose evaluation_only: false and train_only: true')
+        print('Please modify the configuration file and run it again')
+        sys.exit(0)
+
     if evaluate_only:
         print('no training, model evaluation only')
         uvpec.evaluate_model(n_jobs, test_set, xgb_model,'toto', False, output_dir, key, True) # toto because we don't use the inflexion file in the evaluation process only
