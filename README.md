@@ -22,7 +22,7 @@ In order to use `uvpec` and train classification models for plankton (UVP6) imag
 
 For the input/ouput (io), you need to specify:
   - An output directory, where the model and related information will be exported
-  - An image directory, where your well organized folders with plankton images are: it is the training set. The plankton images must be sorted by taxonomist classes into subfolders. Each subfolder is named by the class's name and contains images from only its taxo class. Ideally, the class' name should already exist in EcoTaxa. There is a csv in the cloned repository that you can check. If you have a custom training set independent from EcoTaxa, you should replace this csv by a file corresponding to the classes of your training set : csv file with 2 columns, one for a int ID and one for the class name.
+  - An image directory, where your well organized folders with plankton images are: it is the training set. The plankton images must be sorted by taxonomist classes into subfolders. Each subfolder is named by the class's name, and the ecotaxa ID, and contains images from only its taxo class : 'ClassName_EcotaxaID'. The typical way to export data from ecotaxa in such folders organization is to make a D.O.I. export, exporting all images and keep only 'white on black' images.
   - The name of your features file. If it does not already exist, it will be created so give it a great name !
 
 Then, for XGBoost parameters, you need to specify:
