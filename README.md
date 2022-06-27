@@ -1,6 +1,6 @@
 # Underwater Vision Profiler Embedded Classifier
 
-Toolbox to train automatic classification models for UVP6 images.
+Toolbox to train automatic classification models for UVP6 images and/or to evaluate the performances.
 
 For smooth operation of the toolbox, the toolbox python package must be installed and the toolbox git repository cloned.
 
@@ -18,14 +18,20 @@ Run `git clone https://github.com/ecotaxa/uvpec.git` for HTTPS or
 
 ### How to use the package?
 
-In order to use `uvpec` and train classification models for plankton (UVP6) images, you have to create a `config.yaml` file. Don't panic, you have an example of such a file in your cloned repository in `uvpec/uvpec/config.yaml`. In the latter, you need to specify 2 things : some input/output information and the parameters for the gradient boosted trees algorithm (XGBoost) that will train and create a classification model.
+In order to use the `uvpec` package, you have to create a `config.yaml` file. Don't panic, you have an example of such a file in your cloned repository in `uvpec/uvpec/config.yaml`. In the latter, you need to specify 3 things : what do you want to do with the package, some input/output information and the parameters for the gradient boosted trees algorithm (XGBoost) that will train and create a classification model.
+
+For the process information, you need to specify two boolean variables:
+  - `evaluate_only` : 'true' if you only want to evaluate an already created model. In that case, the package will not train any model and will do only the evaluation of the model indicated by `model` path with the `test_set` data. 'false' if you want to train a model.
+  - `train_only`: 'true' if you want to only train a model and skip the evaluation part. 'false' if not. NOT TAKEN INTO ACCOUNT IF `evaluate_only` is true.
 
 For the input/ouput (io), you need to specify:
   - An output directory, where the model and related information will be exported
   - An image directory, where your well organized folders with plankton images are: it is the training set. The plankton images must be sorted by taxonomist classes into subfolders. Each subfolder is named by the class's name, and the ecotaxa ID, and contains images from only its taxo class : 'ClassName_EcotaxaID'. The typical way to export data from ecotaxa in such folders organization is to make a D.O.I. export, exporting all images and keep only 'white on black' images = *_100.png.
   - The name of your features file. If it does not already exist, it will be created so give it a great name !
+  - The path to a test set for evaluation. Unused if `train_only`is 'true'.
+  - The path to a model. Only used for `evaluation_only`.
 
-Then, for XGBoost parameters, you need to specify:
+Then, for XGBoost parameters of the training, you need to specify:
   - An initialization seed `random_state`. It is important if you build multiple models with a different XGBoost configuration. The number is not important, you can keep 42 with trust.
 
   - A number of cores `n_jobs` that will depend on the computational power of your machine or server
