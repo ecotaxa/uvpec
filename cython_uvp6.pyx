@@ -101,8 +101,8 @@ def py_load_model_and_predict(binary_filename, input_features, nb_classes):
     if size_model < 0:
         print('Failed to load UVP6 model')
         return
-    else:
-        print('Model size (in bytes): '+str(size_model)) 
+    #else:
+    #    print('Model size (in bytes): '+str(size_model)) 
     
     cdef array.array features_in = input_features # https://cython.readthedocs.io/en/stable/src/tutorial/array.html AND https://docs.python.org/3/library/array.html
     #cdef cnp.ndarray features_in = input_features # https://www.futurelearn.com/info/courses/python-in-hpc/0/steps/65126
