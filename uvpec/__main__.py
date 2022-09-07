@@ -53,6 +53,9 @@ def main():
     weight_sensitivity = cfg['xgboost']['weight_sensitivity'] # note : in a previous version, I divided this number by 100 to work with int instead of floats so no worries about config_3e4f40fc.yaml with a sensitivityy of 25 instead of 0.25)
     num_trees_CV = cfg['xgboost']['num_trees_CV']
 
+    # should we use C/C++ to extract the features and/or evaluate the model?
+    use_C = cfg['language']['use_C']
+
     # read process
     train_only = cfg['process']['train_only']
     evaluate_only = cfg['process']['evaluate_only']
@@ -71,7 +74,7 @@ def main():
 
     if evaluate_only:
         print('no training, model evaluation only')
-        uvpec.evaluate_model(n_jobs, test_set, xgb_model,'toto', False, output_dir, key, True) # toto because we don't use the inflexion file in the evaluation process only
+        uvpec.evaluate_model(n_jobs, test_set, xgb_model,'toto', False, output_dir, key, use_C, True) # toto because we don't use the inflexion file in the evaluation process only
         sys.exit(0) # evaluation only, we stop here
 
     # Check if output directory exists
@@ -93,7 +96,7 @@ def main():
     path_to_subfolders = cfg['io']['images_dir']
 
     # should we use C/C++ to extract the features?
-    use_C = cfg['language']['use_C']
+    #use_C = cfg['language']['use_C']
 
     # Zip image folders in the output folder (source: https://www.geeksforgeeks.org/working-zip-files-python/)
     print('Zip image folders')
@@ -172,7 +175,7 @@ def main():
     else:
         inflexion_filename = os.path.join(output_dir, 'inflexion_point_'+str(key)+'.feather')
         xgb_model = os.path.join(output_dir, 'Muvpec_'+str(key)+'.model')
-        uvpec.evaluate_model(n_jobs, test_set, xgb_model, inflexion_filename, True, output_dir, key)
+        uvpec.evaluate_model(n_jobs, test_set, xgb_model, inflexion_filename, True, output_dir, key, use_C)
 
 if __name__ == "__main__":
     main()

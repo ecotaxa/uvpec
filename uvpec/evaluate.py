@@ -9,8 +9,10 @@ from matplotlib import pyplot as plt
 import seaborn as sn
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, balanced_accuracy_score, precision_score, recall_score, f1_score, pairwise_distances
 from uvpec.custom import label_to_int, int_to_label
+from cython_uvp6 import py_load_model_and_predict
+import array
 
-def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, use_inflexion, output_dir, key, evaluate_only = False):
+def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, use_inflexion, output_dir, key, use_C, evaluate_only = False):
     
     # test set
     df_test = pd.read_feather(test_set_path)
@@ -19,23 +21,47 @@ def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, use_inf
     dico_label = {}
     for i, arg in enumerate(np.unique(df_test['labels'])):
         dico_label[arg] = i
-
-    # create the DMatrix for the test set
-    y_test = label_to_int(dico_label, df_test['labels'])
-    df_test = df_test.iloc[:,0:len(df_test.columns)-1]
-    dtest = xgb.DMatrix(df_test, label=y_test)
-
-    # Load best xgboost model for the settings provided by the user
-    bst = xgb.Booster({'nthread': n_jobs})  # init model
-    bst.load_model(xgb_model)
     
-    # make prediction
-    preds = bst.predict(dtest)
+    if use_C is True:
+        # technically it is not needed if we are only interested in the predicted classes. 
+        nb_classes = len(dico_label)
 
-    # get the best prediction
-    pred_class_idx = np.argmax(preds, axis=1)
-    true_classes = int_to_label(dico_label, y_test)
-    predicted_classes = int_to_label(dico_label, pred_class_idx)
+        # function to send features to C module
+        def send_features(i, data):
+            ft = data.iloc[i,0:55].to_numpy()
+            ft = array.array('f', ft) # need to convert numpy type to float array (see cython code .pyx)
+            return(ft)
+        
+        # name of binary model
+        xgb_model_binary_bytes = bytes(os.path.join(output_dir,'Muvpec_'+key), encoding ='utf-8') # need to convert string to bytes
+        # init predicted labels
+        pred_class_idx = list()
+        # load model and predict
+        for i in range(df_test.shape[0]):
+            predicted_label, _, _ = py_load_model_and_predict(xgb_model_binary_bytes, send_features(i, df_test), nb_classes)
+            pred_class_idx.append(predicted_label)
+        
+        # predicted and true classes
+        predicted_classes = int_to_label(dico_label, np.array(pred_class_idx))
+        true_classes = np.array(df_test['labels'])
+
+    else:
+        # create the DMatrix for the test set
+        y_test = label_to_int(dico_label, df_test['labels'])
+        df_test = df_test.iloc[:,0:len(df_test.columns)-1]
+        dtest = xgb.DMatrix(df_test, label=y_test)
+
+        # Load best xgboost model for the settings provided by the user
+        bst = xgb.Booster({'nthread': n_jobs})  # init model
+        bst.load_model(xgb_model)
+    
+        # make prediction
+        preds = bst.predict(dtest)
+
+        # get the best prediction
+        pred_class_idx = np.argmax(preds, axis=1)
+        true_classes = int_to_label(dico_label, y_test)
+        predicted_classes = int_to_label(dico_label, pred_class_idx)
 
     # get index of biological classes to compute come biological scores
     non_biological_classes = ['detritus','artefact','crystal','fiber','filament','reflection']
