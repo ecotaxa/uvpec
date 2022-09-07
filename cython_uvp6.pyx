@@ -1,4 +1,4 @@
-DEF number_classes = 20 # /!\ this needs to be specified by the user because it must be known before the compilation, see also here: https://stackoverflow.com/questions/46306737/cython-compilation-error-not-allowed-in-a-constant-expression
+#DEF number_classes = 40 # /!\ This must be known before the compilation, see also here: https://stackoverflow.com/questions/46306737/cython-compilation-error-not-allowed-in-a-constant-expression. 40 classes is the max number of classes for a UVP6 model hence 40 here (it allocates a static number of 40 in the memory, which is needed by C (based on Fabio's code float* const pred_scores_per_cat.
 
 cimport numpy as np 
 from cpython cimport array 
@@ -90,7 +90,7 @@ cdef extern from "boost_prediction.cpp":
     void predict(const predictor *const pred, const float *const input_vec, uint32_t *const best_pred_id, float *const best_pred_score, float *const pred_scores_per_cat)
     
 ## load predictor
-def py_load_model_and_predict(binary_filename, input_features):
+def py_load_model_and_predict(binary_filename, input_features, nb_classes):
 
     cdef predictor pred # structure is empty at this time, it will be filled by the C++ module
     
@@ -114,12 +114,13 @@ def py_load_model_and_predict(binary_filename, input_features):
     cdef float best_pred_score
     
     #cdef float pred_scores_per_cat[20] # could also be used with a fixed number here and in the return function below but then let's just define it at the very beginning of this file.
-    cdef float pred_scores_per_cat[number_classes] # can be used like this but 'number_classes' needs to be defined BEFORE the compilation otherwise C will not be happy.
-    
+    #cdef float pred_scores_per_cat[number_classes] # can be used like this but 'number_classes' needs to be defined BEFORE the compilation otherwise C will not be happy.
+    cdef float pred_scores_per_cat[40] # needs to be known and cannot be a constant so I take the max number of UVP6 classes allowed.
+
     predict(&pred, features_in.data.as_floats, &best_pred_id, &best_pred_score, pred_scores_per_cat)
     
     release_predictor(&pred)
     
     #return(best_pred_id, best_pred_score, [x for x in pred_scores_per_cat[:20]])
-    return(best_pred_id, best_pred_score, [x for x in pred_scores_per_cat[:number_classes]])
+    return(best_pred_id, best_pred_score, [x for x in pred_scores_per_cat[:nb_classes]])
     
