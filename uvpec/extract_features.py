@@ -16,8 +16,9 @@ def extract_features(path_to_subfolders, use_C):
     # split taxon names and their IDs from EcoTaxa
     folderList_splitted = [folder.split('__') for folder in folderList]
 
-    # create a dict with taxon names and their relevant ID
-    dico_id = {folderList_splitted[i][0] : folderList_splitted[i][1] for i in range(len(folderList_splitted))}
+    # create a dict with taxon names and their relevant ID ## TBD, here we just assign pseudo-random numbers and not their EcoTaxa IDs.
+    #dico_id = {folderList_splitted[i][0] : folderList_splitted[i][1] for i in range(len(folderList_splitted))}
+    dico_id = {folderList_splitted[i][0] : i for i in range(len(folderList_splitted))}
 
     # back to regular list with only taxon names
     folderList_splitted = list(dico_id.keys())
