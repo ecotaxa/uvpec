@@ -10,6 +10,8 @@ For smooth operation of the toolbox, the toolbox python package must be installe
 
 First, you need to make sure that you have the two python libraries `setuptools` and `cython` installed on your computer. If you do not have them, run `pip3 install --user setuptools cython`
 
+The package is working with a version of numpy not older than 1.20.3.
+
 Then, to install the package, run `python -m pip install git+https://github.com/ecotaxa/uvpec` in a terminal. You can also use the SSH version with `python -m pip install git+ssh://git@github.com/ecotaxa/uvpec.git`.
 Bingo ! You have now a great `uvpec` package installed on your computer, congratulations ! You can check if it is installed by running in your terminal `pip list | grep uvpec`
 
