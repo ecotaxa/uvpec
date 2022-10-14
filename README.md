@@ -2,6 +2,8 @@
 
 Toolbox to train automatic classification models for UVP6 images and/or to evaluate the performances.
 
+Minimal knowledge in python, git and machine learning is needed.
+
 For smooth operation of the toolbox, the toolbox python package must be installed and the toolbox git repository cloned.
 
 ### How to install the package ?
