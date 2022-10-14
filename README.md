@@ -26,7 +26,7 @@ For the process information, you need to specify two boolean variables:
 
 For the input/ouput (io), you need to specify:
   - An output directory, where the model and related information will be exported
-  - An image directory, where your well organized folders with plankton images are: it is the training set. The plankton images must be sorted by taxonomist classes into subfolders. Each subfolder is named by the class's name, and the ecotaxa ID, and contains images from only its taxo class : 'ClassName_EcotaxaID'. The typical way to export data from ecotaxa in such folders organization is to make a D.O.I. export, exporting all images and keep only 'white on black' images = *_100.png.
+  - An image directory, where your well organized folders with plankton images are: it is the training set. The plankton images must be sorted by taxonomist classes into subfolders. It is standardized to be used with Ecotaxa. Each subfolder is named by the class's display name, and the ecotaxa ID, separated by two "_", and contains images from only its taxo class : 'DisplayName__EcotaxaID'. The typical way to export data from ecotaxa in such folders organization is to make a D.O.I. export, exporting all images and keep only 'white on black' images = *_100.png.
   - The name of your features file. If it does not already exist, it will be created so give it a great name !
   - The path to a test set for evaluation. Unused if `train_only`is 'true'.
   - The path to a model. Only used for `evaluation_only`.
