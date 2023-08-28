@@ -14,7 +14,7 @@ def extract_features(path_to_subfolders, use_C):
     _, folderList, _ = next(os.walk(path_to_subfolders))
     
     # split taxon names and their IDs from EcoTaxa
-    folderList_splitted = [folder.split('__') for folder in folderList]
+    folderList_splitted = [folder.split('_') for folder in folderList]
 
     # create a dict with taxon names and their relevant ID 
     dico_id = {folderList_splitted[i][0] : folderList_splitted[i][1] for i in range(len(folderList_splitted))}
