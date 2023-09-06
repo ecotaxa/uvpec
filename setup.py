@@ -39,6 +39,8 @@ setup(
             'sklearn>=0.0',
             'pyarrow>=3.0.0',
             'key-generator>=1.0.3',
-            'pillow>=8.2.2'
+            'pillow>=8.2.2',
+            'matplotlib>=3.3.4',
+            'seaborn>=0.11.1
         ]
 )
