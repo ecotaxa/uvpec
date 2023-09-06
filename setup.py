@@ -41,6 +41,6 @@ setup(
             'key-generator>=1.0.3',
             'pillow>=8.2.2',
             'matplotlib>=3.3.4',
-            'seaborn>=0.11.1
+            'seaborn>=0.11.1'
         ]
 )
