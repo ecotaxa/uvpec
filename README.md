@@ -35,9 +35,11 @@ For the input/ouput (io), you need to specify:
   - The path to a test set for evaluation. Unused if `train_only`is 'true'.
   - The path to a model. Only used for `evaluation_only`.
 
+For the instrument parameter, you need to specify:
+  - The pixel threshold of your UVP6 `uvp_pixel_threshold`, that is the threshold value used to split image pixels into foreground (> threshold) and background (<= threshold) pixels. It is usually comprised between 20 and 22. 
+
 Then, for XGBoost parameters of the training, you need to specify:
   - An initialization seed `random_state`. It is important if you build multiple models with a different XGBoost configuration. The number is not important, you can keep 42 with trust.
-
   - A number of CPU cores `n_jobs` that will depend on the computational power of your machine or server
   - The learning rate
   - The maximum depth of a tree `max_depth`. For technical reasons, it is forbidden to go beyond 7
