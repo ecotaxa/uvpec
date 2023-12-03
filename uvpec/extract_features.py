@@ -29,7 +29,7 @@ def extract_features(path_to_subfolders, pixel_threshold, use_C):
 
     # Threshold value used to split image pixels into foreground (> threshold) and background (<= threshold) pixels.
     threshold = pixel_threshold
-    print('You are using a pixel threshold of '+threshold)
+    print('You are using a pixel threshold of '+str(threshold))
     
     # create empty lists to construct the dataset
     Features = list()
