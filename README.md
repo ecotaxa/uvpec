@@ -6,6 +6,8 @@ Minimal knowledge in python, git and machine learning is needed.
 
 For smooth operation of the toolbox, the toolbox python package must be installed and the toolbox git repository cloned.
 
+This toolbox has been tested on MacOS and Linux (e.g. Ubuntu 20.04/22.04 and Mint 21). We do not garantee it will work on Windows.
+
 ### How to install the package ?
 
 First, you need to make sure that you have the two python libraries `setuptools` and `cython (version 0.29.30)` installed on your computer. If you do not have them, run `pip3 install --user setuptools Cython==0.29.30`
