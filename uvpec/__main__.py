@@ -43,6 +43,9 @@ def main():
     test_set = cfg['io']['test_set']
     xgb_model = cfg['io']['model']
 
+    # read instrument settings
+    pixel_threshold = cfg['instrument']['uvp_pixel_threshold']
+
     # read xgboost settings
     random_state = cfg['xgboost']['random_state']
     n_jobs = cfg['xgboost']['n_jobs']
@@ -125,7 +128,7 @@ def main():
         print("Features file does not exist...Extracting features...")
         # extraction of features 
         # note: We will loose some images that are empty (full black images) so some messages will be printed in the console, this is a normal behaviour
-        dataset, dico_id = uvpec.extract_features(path_to_subfolders, use_C)
+        dataset, dico_id = uvpec.extract_features(path_to_subfolders, pixel_threshold, use_C)
         # save dataset
         dataset.to_feather(os.path.join(output_dir, features_ID+'.feather'))
         # save dico_id

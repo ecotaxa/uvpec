@@ -3,7 +3,7 @@ from uvpec.custom import get_uvp6_features
 import os
 import pandas as pd
 
-def extract_features(path_to_subfolders, use_C):
+def extract_features(path_to_subfolders, pixel_threshold, use_C):
     """
     Function that extracts features from images of plankton given in specific subfolders.
     It outputs a dataset of features with their associated label.
@@ -28,7 +28,8 @@ def extract_features(path_to_subfolders, use_C):
         raise ValueError('Max number of classes is 40.')
 
     # Threshold value used to split image pixels into foreground (> threshold) and background (<= threshold) pixels.
-    threshold = 20 # ATTENTION here
+    threshold = pixel_threshold
+    print('You are using a pixel threshold of '+threshold)
     
     # create empty lists to construct the dataset
     Features = list()
