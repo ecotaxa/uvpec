@@ -6,7 +6,7 @@ io:
   model: /path/to/model
   objid_threshold_file: ./objid_threshold_uvp6.tsv
 instrument:
-  uvp_pixel_threshold: 20
+  uvp_pixel_threshold: 21
   use_objid_threshold_file: true
 xgboost:
   random_state: 42

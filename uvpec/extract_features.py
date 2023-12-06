@@ -51,7 +51,6 @@ def extract_features(path_to_subfolders, pixel_threshold, objid_threshold_file, 
                 if len(F) > 0:  # test if feature extraction succeeded before appending to dataset
                     Features.append(F)
                     labels.append(label)
-        print(pd.DataFrame(Features).head())
     else:
         threshold = pixel_threshold
         print('You are using a (fixed) pixel threshold of '+str(threshold))

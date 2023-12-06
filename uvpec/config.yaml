@@ -1,12 +1,12 @@
 io:
   output_dir: /path/to/output
-  images_dir: /path/to/image_folders 
-  features_ID: features # name of the training set if it exits. If it does not exist, it will be the name of the training set that will be created and saved.
-  test_set: /path/to/test_set # can be kept as it is if there is no need for an evaluation
-  model: /path/to/model # can be kept as it is if there is no need for an evaluation or if you train AND evaluate, it will be generated automatically.
+  images_dir: /path/to/image_folders
+  features_ID: features
+  test_set: /path/to/test_set
+  model: /path/to/model
   objid_threshold_file: /path/to/objid_threshold.tsv
 instrument:
-  uvp_pixel_threshold: 20 # usually between 20 and 22
+  uvp_pixel_threshold: 20
   use_objid_threshold_file: true
 xgboost:
   random_state: 42
