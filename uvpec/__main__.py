@@ -43,8 +43,12 @@ def main():
     test_set = cfg['io']['test_set']
     xgb_model = cfg['io']['model']
 
+    # read objid_threshold file (not obligatory, using a constant threshold is also allowed)
+    objid_threshold_file = cfg['io']['objid_threshold_file']
+
     # read instrument settings
     pixel_threshold = cfg['instrument']['uvp_pixel_threshold']
+    use_objid_threshold_file = cfg['instrument']['use_objid_threshold_file']
 
     # read xgboost settings
     random_state = cfg['xgboost']['random_state']

@@ -7,7 +7,7 @@ io:
   objid_threshold_file: /path/to/objid_threshold.tsv
 instrument:
   uvp_pixel_threshold: 20 # usually between 20 and 22
-  use_variable_threshold: true
+  use_objid_threshold_file: true
 xgboost:
   random_state: 42
   n_jobs: 12
