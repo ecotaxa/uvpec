@@ -3,7 +3,7 @@ from uvpec.custom import get_uvp6_features
 import os
 import pandas as pd
 
-def extract_features(path_to_subfolders, pixel_threshold, use_C):
+def extract_features(path_to_subfolders, pixel_threshold, objid_threshold_file, use_objid_threshold_file, use_C):
     """
     Function that extracts features from images of plankton given in specific subfolders.
     It outputs a dataset of features with their associated label.
@@ -27,25 +27,44 @@ def extract_features(path_to_subfolders, pixel_threshold, use_C):
     if len(folderList) > 40:
         raise ValueError('Max number of classes is 40.')
 
-    # Threshold value used to split image pixels into foreground (> threshold) and background (<= threshold) pixels.
-    threshold = pixel_threshold
-    print('You are using a pixel threshold of '+str(threshold))
-    
     # create empty lists to construct the dataset
     Features = list()
     labels = list()
 
-    for folder in folderList:
-        print(folder)
-        _, _, images = next(os.walk(os.path.join(path_to_subfolders, folder)))
-        for image in images:
-            label = folder.split('__')[0]
+    # Threshold value used to split image pixels into foreground (> threshold) and background (<= threshold) pixels.
+    if use_objid_threshold_file:
+        print('You are using threshold values from an input file, there might be variable threshold values')
+        # extract objid and their respective acquisition thresholds 
+        tsv_file = pd.read_csv(objid_threshold_file, sep = '\t')
 
-            # get thumbnail features using the uvp6lib function and append to dataset
-            F = get_uvp6_features(os.path.join(path_to_subfolders, folder, image), threshold, use_C)
-            if len(F) > 0:  # test if feature extraction succeeded before appending to dataset
-                Features.append(F)
-                labels.append(label)
+        for folder in folderList:
+            print(folder)
+            _, _, images = next(os.walk(os.path.join(path_to_subfolders, folder)))
+            for image in images:
+                label = folder.split('__')[0]
+                # extract the threshold of the current image
+                file_threshold = int(tsv_file[tsv_file.objid == int(os.path.splitext(image)[0])].acq_threshold)
+
+                # get thumbnail features using the uvp6lib function and append to dataset
+                F = get_uvp6_features(os.path.join(path_to_subfolders, folder, image), file_threshold, use_C)
+                if len(F) > 0:  # test if feature extraction succeeded before appending to dataset
+                    Features.append(F)
+                    labels.append(label)
+        print(pd.DataFrame(Features).head())
+    else:
+        threshold = pixel_threshold
+        print('You are using a (fixed) pixel threshold of '+str(threshold))
+        for folder in folderList:
+            print(folder)
+            _, _, images = next(os.walk(os.path.join(path_to_subfolders, folder)))
+            for image in images:
+                label = folder.split('__')[0]
+
+                # get thumbnail features using the uvp6lib function and append to dataset
+                F = get_uvp6_features(os.path.join(path_to_subfolders, folder, image), threshold, use_C)
+                if len(F) > 0:  # test if feature extraction succeeded before appending to dataset
+                    Features.append(F)
+                    labels.append(label)
 
     # turn dataset into a Pandas Dataframe and extract number of classes
     dataset = pd.DataFrame(Features)
