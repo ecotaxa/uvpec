@@ -2,6 +2,7 @@
 from uvpec.custom import get_uvp6_features
 import os
 import pandas as pd
+import numpy as np
 
 def extract_features(path_to_subfolders, pixel_threshold, objid_threshold_file, use_objid_threshold_file, use_C):
     """
@@ -44,7 +45,7 @@ def extract_features(path_to_subfolders, pixel_threshold, objid_threshold_file, 
                 label = folder.split('__')[0]
                 # extract the threshold of the current image
                 print(image)
-                file_threshold = int(tsv_file[tsv_file.objid == int(os.path.splitext(image)[0])].acq_threshold)
+                file_threshold = np.min(tsv_file[tsv_file.objid == int(os.path.splitext(image)[0])].acq_threshold) # note: taking the minimum makes sense only if they are duplicates in the objid_threshold file. Here, I am using it because I have spotted at least one duplicate in this file. If there aren't any duplicates, it does not create an issue.
 
                 # get thumbnail features using the uvp6lib function and append to dataset
                 F = get_uvp6_features(os.path.join(path_to_subfolders, folder, image), file_threshold, use_C)
