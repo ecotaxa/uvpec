@@ -43,6 +43,7 @@ def extract_features(path_to_subfolders, pixel_threshold, objid_threshold_file, 
             for image in images:
                 label = folder.split('__')[0]
                 # extract the threshold of the current image
+                print(image)
                 file_threshold = int(tsv_file[tsv_file.objid == int(os.path.splitext(image)[0])].acq_threshold)
 
                 # get thumbnail features using the uvp6lib function and append to dataset
