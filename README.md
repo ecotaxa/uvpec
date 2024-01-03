@@ -1,6 +1,6 @@
 # Underwater Vision Profiler Embedded Classifier
 
-Toolbox to train automatic classification models for UVP6 images and/or to evaluate the performances.
+Toolbox to train automatic classification models for UVP6 images and/or to evaluate their performances.
 
 Minimal knowledge in python, git and machine learning is needed.
 
@@ -34,9 +34,11 @@ For the input/ouput (io), you need to specify:
   - The name of your features file. If it does not already exist, it will be created so give it a great name !
   - The path to a test set for evaluation. Unused if `train_only`is 'true'.
   - The path to a model. Only used for `evaluation_only`.
+  - The path to a tsv file containing the objid and the UVP6 acquisition threshold of each image for which features will be extracted. Only used if `use_objid_threshold_file` is set to `true`.
 
 For the instrument parameter, you need to specify:
-  - The pixel threshold of your UVP6 `uvp_pixel_threshold`, that is the threshold value used to split image pixels into foreground (> threshold) and background (<= threshold) pixels. It is usually comprised between 20 and 22. 
+  - The pixel threshold of your UVP6 `uvp_pixel_threshold`, that is the threshold value used to split image pixels into foreground (> threshold) and background (<= threshold) pixels. It is usually comprised between 20 and 22.
+  - If you wish to use a variable threshold value (e.g. if you are working with images acquired with different UVP6), set `use_objid_threshold_file` to `true`.
 
 Then, for XGBoost parameters of the training, you need to specify:
   - An initialization seed `random_state`. It is important if you build multiple models with a different XGBoost configuration. The number is not important, you can keep 42 with trust.
