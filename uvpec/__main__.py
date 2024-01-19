@@ -36,8 +36,8 @@ def main():
     # Read output directory
     output_dir = cfg['io']['output_dir'] 
 
-    # Read features ID
-    features_ID = cfg['io']['features_ID']
+    # Read training features file
+    training_features = cfg['io']['training_features_file']
 
     # read test set and xgboost model (can be dummy file paths if there is no evaluation)
     test_set = cfg['io']['test_set']
@@ -110,21 +110,21 @@ def main():
     #file_paths = uvpec.custom.get_all_file_paths(path_to_subfolders)
 
     # writing files to a zipfile
-    if(os.path.isfile(os.path.join(output_dir, features_ID+'_images.zip')) == True):
+    if(os.path.isfile(os.path.join(output_dir, training_features+'_images.zip')) == True):
         print('Images have already been zipped !')
     else:
         print('Images are being zipped...')
         file_paths = uvpec.custom.get_all_file_paths(path_to_subfolders)
-        with ZipFile(os.path.join(output_dir, features_ID+'_images.zip'),'w') as zip:
+        with ZipFile(os.path.join(output_dir, training_features+'_images.zip'),'w') as zip:
             # writing each file one by one
             for file in file_paths:
                 zip.write(file)
         print('All files zipped successfully!')   
 
     # check if features file exists 
-    if(os.path.isfile(os.path.join(output_dir, features_ID+'.feather')) == True):
+    if(os.path.isfile(os.path.join(output_dir, training_features+'.feather')) == True):
         print('All features have already been extracted...Loading data')
-        dataset = pd.read_feather(os.path.join(output_dir, features_ID+'.feather'))  
+        dataset = pd.read_feather(os.path.join(output_dir, training_features+'.feather'))  
         dico_id = np.load(os.path.join(output_dir, 'dico_id.npy'), allow_pickle=True) # read numpy file
         dico_id = dict(enumerate(dico_id.flatten(), 1)) # convert numpy ndarray to dict
         dico_id = dico_id[1] # get the right format for an easy use
@@ -134,7 +134,7 @@ def main():
         # note: We will loose some images that are empty (full black images) so some messages will be printed in the console, this is a normal behaviour
         dataset, dico_id = uvpec.extract_features(path_to_subfolders, pixel_threshold, objid_threshold_file, use_objid_threshold_file, use_C)
         # save dataset
-        dataset.to_feather(os.path.join(output_dir, features_ID+'.feather'))
+        dataset.to_feather(os.path.join(output_dir, training_features+'.feather'))
         # save dico_id
         np.save(os.path.join(output_dir,'dico_id.npy'), dico_id)
         print("We are done with the extraction of features, data have been saved")
