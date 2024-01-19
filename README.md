@@ -43,7 +43,7 @@ For the instrument parameter, you need to specify:
 Then, for XGBoost parameters of the training, you need to specify:
   - An initialization seed `random_state`. It is important if you build multiple models with a different XGBoost configuration. The number is not important, you can keep 42 with trust.
   - A number of CPU cores `n_jobs` that will depend on the computational power of your machine or server
-  - The learning rate
+  - The [learning rate](https://en.wikipedia.org/wiki/Learning_rate). It controls the magnitude of adjustements made to the model's parameter during each iteration of training (i.e. in our model, at each boosting round). A high learning rate may cause the optimization to miss the optimal parameter values (e.g. it leads to oscillations or divergence) while a low learning rate might lead to a slow training due to a slow convergence to the minimum of the loss function or it can also get stuck in local minima.
   - The maximum depth of a tree `max_depth`. For technical reasons, it is forbidden to go beyond 7
   - A weight or `weight_sensitivity` that represents the weight you want to put on biological classes during the training because eh, we all know that 90% of images is marine snow
   - `detritus_subsampling` can be used if you want to undersample your training set. Keep it to 'false' if you don't want to use it

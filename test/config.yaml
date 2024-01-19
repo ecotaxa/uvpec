@@ -2,7 +2,7 @@ io:
   output_dir: ../test_output
   images_dir: ./img_sample
   training_features_file: features
-  test_set: /home/fricour/uvpec/test_output/features.feather
+  test_features_file: /home/fricour/uvpec/test_output/features.feather
   model: /path/to/model
   objid_threshold_file: ./objid_threshold_uvp6.tsv
 instrument:

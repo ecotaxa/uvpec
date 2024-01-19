@@ -2,7 +2,7 @@ io:
   output_dir: /path/to/output
   images_dir: /path/to/image_folders
   training_features_file: features
-  test_set: /path/to/test_set
+  test_features_file: /path/to/test_set
   model: /path/to/model
   objid_threshold_file: /path/to/objid_threshold.tsv
 instrument:

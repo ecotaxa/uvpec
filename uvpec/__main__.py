@@ -40,7 +40,7 @@ def main():
     training_features = cfg['io']['training_features_file']
 
     # read test set and xgboost model (can be dummy file paths if there is no evaluation)
-    test_set = cfg['io']['test_set']
+    test_set = cfg['io']['test_features_file']
     xgb_model = cfg['io']['model']
 
     # read objid_threshold file (not obligatory, using a constant threshold is also allowed)
