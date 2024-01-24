@@ -42,13 +42,13 @@ For the instrument parameter, you need to specify:
 
 Then, for XGBoost parameters of the training, you need to specify:
   - An initialization seed `random_state`. It is important if you build multiple models with a different XGBoost configuration. The number is not important, you can keep 42 with trust.
-  - A number of CPU cores `n_jobs` that will depend on the computational power of your machine or server
+  - A number of CPU cores `n_jobs` that will depend on the computational power of your machine or server.
   - The [learning rate](https://en.wikipedia.org/wiki/Learning_rate). It controls the magnitude of adjustements made to the model's parameter during each iteration of training (i.e. in our model, at each boosting round). A high learning rate may cause the optimization to miss the optimal parameter values (e.g. it leads to oscillations or divergence) while a low learning rate might lead to a slow training due to a slow convergence to the minimum of the loss function or it can also get stuck in local minima.
-  - The maximum depth of a tree `max_depth`. For technical reasons, it is forbidden to go beyond 7
-  - A weight or `weight_sensitivity` that represents the weight you want to put on biological classes during the training because eh, we all know that 90% of images is marine snow
-  - `detritus_subsampling` can be used if you want to undersample your training set. Keep it to 'false' if you don't want to use it
-  - `subsampling_percentage` is about how much you want to undersample the 'detritus' class of your training set
-  - `num_trees_CV` stands for the number of rounds you want to use for the cross-validation. The latter is use to determine the optimal number of rounds before overfitting. The bigger the number, the longer it takes to process
+  - The maximum depth of a tree `max_depth`. For technical reasons, it is forbidden to go beyond 7.
+  - `weight_sensitivity` that represents the weight ($w$) you want to put on biological classes during the training. The minimum value is 0 (i.e. no weight) and the maximum value is 1. It is useful to add a weight to smaller classes because usually 90% of images are detritus hence putting $w$ to 0.25 will put more weight on small (biological) classes during training while 0.5 will put even more weight and so on.
+  - `detritus_subsampling` can be used if you want to undersample the detritus class in your training. If you think that your detritus class (therefore, you must have one specifically named 'detritus') is too populated (e.g. extreme dataset imbalance) and that removing a part of it is not an issue for your application, then you can fix a given percentage of subsampling for that class. For example, a `subsampling_percentage` of 20 means that you only keep 20% of your entire detritus class. Keep it to 'false' if you don't want to use it.
+  - `subsampling_percentage` is about how much you want to undersample the 'detritus' class of your training set.
+  - `num_trees_CV` stands for the number of rounds you want to use for the cross-validation. The latter is used to determine the optimal number of rounds before overfitting. The bigger the number, the longer it takes to process.
 
 You will also notice that there is one last thing. `use_C` gives the possibility to extract the features from images using a C++ version. We advise to keep it to 'true' because it is much faster than the python version.
 
