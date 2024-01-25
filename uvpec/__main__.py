@@ -18,7 +18,7 @@ def main():
     # Parse command line arguments ----
     parser = argparse.ArgumentParser(
         prog="uvpec",
-        description="Train UVP models"
+        description="Train UVP6 models"
     )
 
     parser.add_argument("path", type=str, nargs=1,
@@ -35,12 +35,17 @@ def main():
     
     # Read output directory
     output_dir = cfg['io']['output_dir'] 
+    
+    # read train/test images dir
+    path_to_training_subfolders = cfg['io']['train_images_dir']
+    path_to_test_subfolders = cfg['io']['test_images_dir']
 
-    # Read training features file
+    # Read training and test features file (if they do not exist, they will be created)
     training_features = cfg['io']['training_features_file']
+    test_features = cfg['io']['test_features_file']
 
-    # read test set and xgboost model (can be dummy file paths if there is no evaluation)
-    test_set = cfg['io']['test_features_file']
+    # read xgboost model (can be dummy file paths if there is no evaluation)
+    #test_set = cfg['io']['test_features_file']
     xgb_model = cfg['io']['model']
 
     # read objid_threshold file (not obligatory, using a constant threshold is also allowed)
@@ -69,7 +74,7 @@ def main():
 
     # Generate unique key to have a unique identification (ID)
     key = generate(1, min_atom_len = 8, max_atom_len = 8).get_key() # unique key of 8 characters
-
+    
     # print error message if user wants both an evaluation only and a training only
     if (evaluate_only and train_only):
         print('It seems like you did not fill the configuration file correctly.')
@@ -81,7 +86,22 @@ def main():
 
     if evaluate_only:
         print('no training, model evaluation only')
-        uvpec.evaluate_model(n_jobs, test_set, xgb_model,'toto', False, output_dir, key, use_C, True) # toto because we don't use the inflexion file in the evaluation process only
+        if(os.path.isfile(os.path.join(output_dir, test_features+'.feather')) == True):
+            print('Test features have already been extracted...Loading data')
+            dataset_test = pd.read_feather(os.path.join(output_dir, test_features+'.feather'))  
+            dico_id_test = np.load(os.path.join(output_dir, 'dico_id_test.npy'), allow_pickle=True) # read numpy file
+            dico_id_test = dict(enumerate(dico_id_test.flatten(), 1)) # convert numpy ndarray to dict
+            dico_id_test = dico_id_test[1] # get the right format for an easy use
+        else:
+            print("Test features file does not exist...Extracting features...")
+            # extraction of features 
+            dataset_test, dico_id_test = uvpec.extract_features(path_to_test_subfolders, pixel_threshold, objid_threshold_file, use_objid_threshold_file, use_C)
+            # save dataset
+            dataset_test.to_feather(os.path.join(output_dir, test_features+'.feather'))
+            # save dico_id
+            np.save(os.path.join(output_dir,'dico_id_test.npy'), dico_id_test)
+            print("We are done with the extraction of test features, data have been saved")    
+        uvpec.evaluate_model(n_jobs, dataset_test, xgb_model,'toto', False, output_dir, key, use_C, True) # toto because we don't use the inflexion file in the evaluation process only
         sys.exit(0) # evaluation only, we stop here
 
     # Check if output directory exists
@@ -100,8 +120,6 @@ def main():
     log.debug("we're debugging !")
 
     ### Extract features (pipeline - step 1)
-    path_to_training_subfolders = cfg['io']['train_images_dir']
-
     # Zip image folders in the output folder (source: https://www.geeksforgeeks.org/working-zip-files-python/)
     print('Zip training image folders')
 
@@ -121,7 +139,7 @@ def main():
     if(os.path.isfile(os.path.join(output_dir, training_features+'.feather')) == True):
         print('Training features have already been extracted...Loading data')
         dataset = pd.read_feather(os.path.join(output_dir, training_features+'.feather'))  
-        dico_id = np.load(os.path.join(output_dir, 'dico_id.npy'), allow_pickle=True) # read numpy file
+        dico_id = np.load(os.path.join(output_dir, 'dico_id_train.npy'), allow_pickle=True) # read numpy file
         dico_id = dict(enumerate(dico_id.flatten(), 1)) # convert numpy ndarray to dict
         dico_id = dico_id[1] # get the right format for an easy use
     else:
@@ -132,7 +150,7 @@ def main():
         # save dataset
         dataset.to_feather(os.path.join(output_dir, training_features+'.feather'))
         # save dico_id
-        np.save(os.path.join(output_dir,'dico_id.npy'), dico_id)
+        np.save(os.path.join(output_dir,'dico_id_train.npy'), dico_id)
         print("We are done with the extraction of training features, data have been saved")
 
     ### Train model (pipeline - step 2)
