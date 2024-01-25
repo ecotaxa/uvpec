@@ -119,13 +119,13 @@ def main():
 
     # check if features file exists 
     if(os.path.isfile(os.path.join(output_dir, training_features+'.feather')) == True):
-        print('All features have already been extracted...Loading data')
+        print('Training features have already been extracted...Loading data')
         dataset = pd.read_feather(os.path.join(output_dir, training_features+'.feather'))  
         dico_id = np.load(os.path.join(output_dir, 'dico_id.npy'), allow_pickle=True) # read numpy file
         dico_id = dict(enumerate(dico_id.flatten(), 1)) # convert numpy ndarray to dict
         dico_id = dico_id[1] # get the right format for an easy use
     else:
-        print("Features file does not exist...Extracting features...")
+        print("Training features file does not exist...Extracting features...")
         # extraction of features 
         # note: We will loose some images that are empty (full black images) so some messages will be printed in the console, this is a normal behaviour
         dataset, dico_id = uvpec.extract_features(path_to_training_subfolders, pixel_threshold, objid_threshold_file, use_objid_threshold_file, use_C)
@@ -133,7 +133,7 @@ def main():
         dataset.to_feather(os.path.join(output_dir, training_features+'.feather'))
         # save dico_id
         np.save(os.path.join(output_dir,'dico_id.npy'), dico_id)
-        print("We are done with the extraction of features, data have been saved")
+        print("We are done with the extraction of training features, data have been saved")
 
     ### Train model (pipeline - step 2)
 
