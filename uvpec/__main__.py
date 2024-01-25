@@ -113,6 +113,7 @@ def main():
             # save dico_id
             np.save(os.path.join(output_dir,'dico_id_test.npy'), dico_id_test)
             print("We are done with the extraction of test features, data have been saved")    
+
         uvpec.evaluate_model(n_jobs, dataset_test, xgb_model,'toto', False, output_dir, key, use_C, True) # toto because we don't use the inflexion file in the evaluation process only
         sys.exit(0) # evaluation only, we stop here
 
@@ -206,9 +207,25 @@ def main():
         print('training only, no evaluation')
         sys.exit(0)
     else:
+        if(os.path.isfile(os.path.join(output_dir, test_features+'.feather')) == True):
+            print('Test features have already been extracted...Loading data')
+            dataset_test = pd.read_feather(os.path.join(output_dir, test_features+'.feather'))
+            dico_id_test = np.load(os.path.join(output_dir, 'dico_id_test.npy'), allow_pickle=True) # read numpy file
+            dico_id_test = dict(enumerate(dico_id_test.flatten(), 1)) # convert numpy ndarray to dict
+            dico_id_test = dico_id_test[1] # get the right format for an easy use
+        else:
+            print("Test features file does not exist...Extracting features...")
+            # extraction of features
+            dataset_test, dico_id_test = uvpec.extract_features(path_to_test_subfolders, pixel_threshold, objid_threshold_file, use_objid_threshold_file, use_C)
+            # save dataset
+            dataset_test.to_feather(os.path.join(output_dir, test_features+'.feather'))
+            # save dico_id
+            np.save(os.path.join(output_dir,'dico_id_test.npy'), dico_id_test)
+            print("We are done with the extraction of test features, data have been saved")
+
         inflexion_filename = os.path.join(output_dir, 'inflexion_point_'+str(key)+'.feather')
         xgb_model = os.path.join(output_dir, 'Muvpec_'+str(key)+'.model')
-        uvpec.evaluate_model(n_jobs, test_set, xgb_model, inflexion_filename, True, output_dir, key, use_C)
+        uvpec.evaluate_model(n_jobs, dataset_test, xgb_model, inflexion_filename, True, output_dir, key, use_C)
 
 if __name__ == "__main__":
     main()
