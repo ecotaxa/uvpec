@@ -100,21 +100,17 @@ def main():
     log.debug("we're debugging !")
 
     ### Extract features (pipeline - step 1)
-    path_to_subfolders = cfg['io']['images_dir']
-
-    # should we use C/C++ to extract the features?
-    #use_C = cfg['language']['use_C']
+    path_to_training_subfolders = cfg['io']['train_images_dir']
 
     # Zip image folders in the output folder (source: https://www.geeksforgeeks.org/working-zip-files-python/)
-    print('Zip image folders')
-    #file_paths = uvpec.custom.get_all_file_paths(path_to_subfolders)
+    print('Zip training image folders')
 
     # writing files to a zipfile
     if(os.path.isfile(os.path.join(output_dir, training_features+'_images.zip')) == True):
         print('Images have already been zipped !')
     else:
         print('Images are being zipped...')
-        file_paths = uvpec.custom.get_all_file_paths(path_to_subfolders)
+        file_paths = uvpec.custom.get_all_file_paths(path_to_training_subfolders)
         with ZipFile(os.path.join(output_dir, training_features+'_images.zip'),'w') as zip:
             # writing each file one by one
             for file in file_paths:
@@ -132,7 +128,7 @@ def main():
         print("Features file does not exist...Extracting features...")
         # extraction of features 
         # note: We will loose some images that are empty (full black images) so some messages will be printed in the console, this is a normal behaviour
-        dataset, dico_id = uvpec.extract_features(path_to_subfolders, pixel_threshold, objid_threshold_file, use_objid_threshold_file, use_C)
+        dataset, dico_id = uvpec.extract_features(path_to_training_subfolders, pixel_threshold, objid_threshold_file, use_objid_threshold_file, use_C)
         # save dataset
         dataset.to_feather(os.path.join(output_dir, training_features+'.feather'))
         # save dico_id

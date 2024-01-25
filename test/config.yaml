@@ -1,8 +1,9 @@
 io:
   output_dir: ../test_output
-  images_dir: ./img_sample
-  training_features_file: features
-  test_features_file: /home/fricour/uvpec/test_output/features.feather
+  train_images_dir: ./img_sample
+  test_images_dir: ./img_sample
+  training_features_file: features_train
+  test_features_file: features_test
   model: /path/to/model
   objid_threshold_file: ./objid_threshold_uvp6.tsv
 instrument:

@@ -1,8 +1,9 @@
 io:
   output_dir: /path/to/output
-  images_dir: /path/to/image_folders
-  training_features_file: features
-  test_features_file: /path/to/test_set
+  train_images_dir: /path/to/train_image_folders
+  test_images_dir: /path/ti/test_image_folders
+  training_features_file: features_train
+  test_features_file: features_test
   model: /path/to/model
   objid_threshold_file: /path/to/objid_threshold.tsv
 instrument:
