@@ -44,11 +44,10 @@ def main():
     training_features = cfg['io']['training_features_file']
     test_features = cfg['io']['test_features_file']
 
-    # read xgboost model (can be dummy file paths if there is no evaluation)
-    #test_set = cfg['io']['test_features_file']
+    # read xgboost model (can be a dummy filepath if there is no evaluation)
     xgb_model = cfg['io']['model']
 
-    # read objid_threshold file (not obligatory, using a constant threshold is also allowed)
+    # read objid_threshold file (not compulsory, using a constant threshold is also allowed)
     objid_threshold_file = cfg['io']['objid_threshold_file']
 
     # read instrument settings
@@ -62,10 +61,10 @@ def main():
     max_depth = cfg['xgboost']['max_depth']
     detritus_subsampling = cfg['xgboost']['detritus_subsampling']
     subsampling_percentage = cfg['xgboost']['subsampling_percentage']
-    weight_sensitivity = cfg['xgboost']['weight_sensitivity'] # note : in a previous version, I divided this number by 100 to work with int instead of floats so no worries about config_3e4f40fc.yaml with a sensitivityy of 25 instead of 0.25)
+    weight_sensitivity = cfg['xgboost']['weight_sensitivity'] 
     num_trees_CV = cfg['xgboost']['num_trees_CV']
 
-    # should we use C/C++ to extract the features and/or evaluate the model?
+    # option to use C instead of python to extract the features
     use_C = cfg['language']['use_C']
 
     # read process
@@ -86,6 +85,19 @@ def main():
 
     if evaluate_only:
         print('no training, model evaluation only')
+
+        # Check if output directory exists and create it if it does not exist
+        if not os.path.exists(output_dir):
+            print("Output directory does not exist. Creating it.")
+            os.makedirs(output_dir, exist_ok=True) # make directory
+            shutil.copy(config_file, output_dir) # copy config file in that directory
+            os.rename(os.path.join(output_dir,'config.yaml'), os.path.join(output_dir, 'config_'+key+'.yaml')) # rename config file with the key 
+        else:
+            print("Output directory already exists")
+            shutil.copy(config_file, output_dir) # copy config file in that directory
+            os.rename(os.path.join(output_dir,'config.yaml'), os.path.join(output_dir, 'config_'+key+'.yaml')) # rename config file with the key 
+        
+        # extract test features
         if(os.path.isfile(os.path.join(output_dir, test_features+'.feather')) == True):
             print('Test features have already been extracted...Loading data')
             dataset_test = pd.read_feather(os.path.join(output_dir, test_features+'.feather'))  
