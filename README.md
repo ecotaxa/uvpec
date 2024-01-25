@@ -33,7 +33,7 @@ For the input/ouput (io), you need to specify:
   - An image directory, where your well organized folders with plankton images are: it is the training set. The plankton images must be sorted by taxonomist classes into subfolders. It is standardized to be used with Ecotaxa. Each subfolder is named by the class's display name, and the ecotaxa ID, separated by two "_", and contains images from only its taxo class : 'DisplayName__EcotaxaID'. The typical way to export data from ecotaxa in such folders organization is to make a D.O.I. export, exporting all images and keep only 'white on black' images = *_100.png. The maximum number of accepted classes is 40.
   - The name of your features file. If it does not already exist, it will be created so give it a great name !
   - The path to a test set for evaluation. Unused if `train_only`is 'true'.
-  - The path to a model. Only used for `evaluation_only`.
+  - The path to a model (extension should be .model, a model created using XGBoost). Only used for `evaluation_only`.
   - The path to a tsv file containing the objid and the UVP6 acquisition threshold of each image for which features will be extracted. Only used if `use_objid_threshold_file` is set to `true`.
 
 For the instrument parameter, you need to specify:
