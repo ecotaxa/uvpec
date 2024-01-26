@@ -12,10 +12,11 @@ from uvpec.custom import label_to_int, int_to_label
 from cython_uvp6 import py_load_model_and_predict
 import array
 
-def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, use_inflexion, output_dir, key, use_C, evaluate_only = False):
+def evaluate_model(n_jobs, df_test, xgb_model, inflexion_filename, use_inflexion, output_dir, use_C):
     
-    # test set
-    df_test = pd.read_feather(test_set_path)
+    # extract key (model identifier)
+    key = xgb_model.split('_')[-1].split('.')[0]
+    #print(key)
 
     # create a dict() to convert labels to int (for xgboost)
     dico_label = {}
@@ -115,12 +116,8 @@ def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, use_inf
     plt.ylabel('True label', fontsize=14)
     plt.xlabel('Predicted label', fontsize=14)
     #plt.show()
-    if evaluate_only == False:
-        plt.savefig(os.path.join(output_dir,'Muvpec_'+str(key)+'_confusion_matrix.jpg'))
-        plt.close()
-    else:
-        plt.savefig(xgb_model.split('.')[0]+'_confusion_matrix.jpg')
-        plt.close()
+    plt.savefig(os.path.join(output_dir,'Muvpec_'+str(key)+'_confusion_matrix.jpg'))
+    plt.close()
 
     # Classification report
     classif_report = classification_report(true_classes, predicted_classes, output_dict=True)
@@ -145,10 +142,5 @@ def evaluate_model(n_jobs, test_set_path, xgb_model, inflexion_filename, use_inf
     # make figure
     plt.figure(figsize = (20,20))
     sn.heatmap(classif_report, annot=True, vmin=0, vmax=1.0, yticklabels = annot, cmap="viridis")
-    #plt.show()
-    if evaluate_only == False:
-        plt.savefig(os.path.join(output_dir,'Muvpec_'+str(key)+'_classif_report.jpg'))
-        plt.close()
-    else:
-        plt.savefig(xgb_model.split('.')[0]+'_classif_report.jpg')
-        plt.close()
+    plt.savefig(os.path.join(output_dir,'Muvpec_'+str(key)+'_classif_report.jpg'))
+    plt.close()

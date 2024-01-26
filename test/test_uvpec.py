@@ -9,7 +9,7 @@ def test_package():
 
 # check if features file exists
 def test_feature():
-    assert(os.path.isfile('../test_output/features.feather')) == True
+    assert(os.path.isfile('../test_output/features_train.feather')) == True
 
 # check if inflexion data exists
 def test_inflexion():

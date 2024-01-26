@@ -18,7 +18,7 @@ def main():
     # Parse command line arguments ----
     parser = argparse.ArgumentParser(
         prog="uvpec",
-        description="Train UVP models"
+        description="Train UVP6 models"
     )
 
     parser.add_argument("path", type=str, nargs=1,
@@ -35,15 +35,19 @@ def main():
     
     # Read output directory
     output_dir = cfg['io']['output_dir'] 
+    
+    # read train/test images dir
+    path_to_training_subfolders = cfg['io']['train_images_dir']
+    path_to_test_subfolders = cfg['io']['test_images_dir']
 
-    # Read training features file
+    # Read training and test features file (if they do not exist, they will be created)
     training_features = cfg['io']['training_features_file']
+    test_features = cfg['io']['test_features_file']
 
-    # read test set and xgboost model (can be dummy file paths if there is no evaluation)
-    test_set = cfg['io']['test_features_file']
+    # read xgboost model (can be a dummy filepath if there is no evaluation)
     xgb_model = cfg['io']['model']
 
-    # read objid_threshold file (not obligatory, using a constant threshold is also allowed)
+    # read objid_threshold file (not compulsory, using a constant threshold is also allowed)
     objid_threshold_file = cfg['io']['objid_threshold_file']
 
     # read instrument settings
@@ -57,10 +61,10 @@ def main():
     max_depth = cfg['xgboost']['max_depth']
     detritus_subsampling = cfg['xgboost']['detritus_subsampling']
     subsampling_percentage = cfg['xgboost']['subsampling_percentage']
-    weight_sensitivity = cfg['xgboost']['weight_sensitivity'] # note : in a previous version, I divided this number by 100 to work with int instead of floats so no worries about config_3e4f40fc.yaml with a sensitivityy of 25 instead of 0.25)
+    weight_sensitivity = cfg['xgboost']['weight_sensitivity'] 
     num_trees_CV = cfg['xgboost']['num_trees_CV']
 
-    # should we use C/C++ to extract the features and/or evaluate the model?
+    # option to use C instead of python to extract the features
     use_C = cfg['language']['use_C']
 
     # read process
@@ -69,7 +73,7 @@ def main():
 
     # Generate unique key to have a unique identification (ID)
     key = generate(1, min_atom_len = 8, max_atom_len = 8).get_key() # unique key of 8 characters
-
+    
     # print error message if user wants both an evaluation only and a training only
     if (evaluate_only and train_only):
         print('It seems like you did not fill the configuration file correctly.')
@@ -81,7 +85,36 @@ def main():
 
     if evaluate_only:
         print('no training, model evaluation only')
-        uvpec.evaluate_model(n_jobs, test_set, xgb_model,'toto', False, output_dir, key, use_C, True) # toto because we don't use the inflexion file in the evaluation process only
+
+        # Check if output directory exists and create it if it does not exist
+        if not os.path.exists(output_dir):
+            print("Output directory does not exist. Creating it.")
+            os.makedirs(output_dir, exist_ok=True) # make directory
+            shutil.copy(config_file, output_dir) # copy config file in that directory
+            os.rename(os.path.join(output_dir,'config.yaml'), os.path.join(output_dir, 'config_'+key+'.yaml')) # rename config file with the key 
+        else:
+            print("Output directory already exists")
+            shutil.copy(config_file, output_dir) # copy config file in that directory
+            os.rename(os.path.join(output_dir,'config.yaml'), os.path.join(output_dir, 'config_'+key+'.yaml')) # rename config file with the key 
+        
+        # extract test features
+        if(os.path.isfile(os.path.join(output_dir, test_features+'.feather')) == True):
+            print('Test features have already been extracted...Loading data')
+            dataset_test = pd.read_feather(os.path.join(output_dir, test_features+'.feather'))  
+            dico_id_test = np.load(os.path.join(output_dir, 'dico_id_test.npy'), allow_pickle=True) # read numpy file
+            dico_id_test = dict(enumerate(dico_id_test.flatten(), 1)) # convert numpy ndarray to dict
+            dico_id_test = dico_id_test[1] # get the right format for an easy use
+        else:
+            print("Test features file does not exist...Extracting features...")
+            # extraction of features 
+            dataset_test, dico_id_test = uvpec.extract_features(path_to_test_subfolders, pixel_threshold, objid_threshold_file, use_objid_threshold_file, use_C)
+            # save dataset
+            dataset_test.to_feather(os.path.join(output_dir, test_features+'.feather'))
+            # save dico_id
+            np.save(os.path.join(output_dir,'dico_id_test.npy'), dico_id_test)
+            print("We are done with the extraction of test features, data have been saved")    
+
+        uvpec.evaluate_model(n_jobs, dataset_test, xgb_model,'toto', False, output_dir, use_C) # toto because we don't use the inflexion file in the evaluation process only
         sys.exit(0) # evaluation only, we stop here
 
     # Check if output directory exists
@@ -100,21 +133,15 @@ def main():
     log.debug("we're debugging !")
 
     ### Extract features (pipeline - step 1)
-    path_to_subfolders = cfg['io']['images_dir']
-
-    # should we use C/C++ to extract the features?
-    #use_C = cfg['language']['use_C']
-
     # Zip image folders in the output folder (source: https://www.geeksforgeeks.org/working-zip-files-python/)
-    print('Zip image folders')
-    #file_paths = uvpec.custom.get_all_file_paths(path_to_subfolders)
+    print('Zip training image folders')
 
     # writing files to a zipfile
     if(os.path.isfile(os.path.join(output_dir, training_features+'_images.zip')) == True):
         print('Images have already been zipped !')
     else:
         print('Images are being zipped...')
-        file_paths = uvpec.custom.get_all_file_paths(path_to_subfolders)
+        file_paths = uvpec.custom.get_all_file_paths(path_to_training_subfolders)
         with ZipFile(os.path.join(output_dir, training_features+'_images.zip'),'w') as zip:
             # writing each file one by one
             for file in file_paths:
@@ -123,21 +150,21 @@ def main():
 
     # check if features file exists 
     if(os.path.isfile(os.path.join(output_dir, training_features+'.feather')) == True):
-        print('All features have already been extracted...Loading data')
+        print('Training features have already been extracted...Loading data')
         dataset = pd.read_feather(os.path.join(output_dir, training_features+'.feather'))  
-        dico_id = np.load(os.path.join(output_dir, 'dico_id.npy'), allow_pickle=True) # read numpy file
+        dico_id = np.load(os.path.join(output_dir, 'dico_id_train.npy'), allow_pickle=True) # read numpy file
         dico_id = dict(enumerate(dico_id.flatten(), 1)) # convert numpy ndarray to dict
         dico_id = dico_id[1] # get the right format for an easy use
     else:
-        print("Features file does not exist...Extracting features...")
+        print("Training features file does not exist...Extracting features...")
         # extraction of features 
         # note: We will loose some images that are empty (full black images) so some messages will be printed in the console, this is a normal behaviour
-        dataset, dico_id = uvpec.extract_features(path_to_subfolders, pixel_threshold, objid_threshold_file, use_objid_threshold_file, use_C)
+        dataset, dico_id = uvpec.extract_features(path_to_training_subfolders, pixel_threshold, objid_threshold_file, use_objid_threshold_file, use_C)
         # save dataset
         dataset.to_feather(os.path.join(output_dir, training_features+'.feather'))
         # save dico_id
-        np.save(os.path.join(output_dir,'dico_id.npy'), dico_id)
-        print("We are done with the extraction of features, data have been saved")
+        np.save(os.path.join(output_dir,'dico_id_train.npy'), dico_id)
+        print("We are done with the extraction of training features, data have been saved")
 
     ### Train model (pipeline - step 2)
 
@@ -180,9 +207,25 @@ def main():
         print('training only, no evaluation')
         sys.exit(0)
     else:
+        if(os.path.isfile(os.path.join(output_dir, test_features+'.feather')) == True):
+            print('Test features have already been extracted...Loading data')
+            dataset_test = pd.read_feather(os.path.join(output_dir, test_features+'.feather'))
+            dico_id_test = np.load(os.path.join(output_dir, 'dico_id_test.npy'), allow_pickle=True) # read numpy file
+            dico_id_test = dict(enumerate(dico_id_test.flatten(), 1)) # convert numpy ndarray to dict
+            dico_id_test = dico_id_test[1] # get the right format for an easy use
+        else:
+            print("Test features file does not exist...Extracting features...")
+            # extraction of features
+            dataset_test, dico_id_test = uvpec.extract_features(path_to_test_subfolders, pixel_threshold, objid_threshold_file, use_objid_threshold_file, use_C)
+            # save dataset
+            dataset_test.to_feather(os.path.join(output_dir, test_features+'.feather'))
+            # save dico_id
+            np.save(os.path.join(output_dir,'dico_id_test.npy'), dico_id_test)
+            print("We are done with the extraction of test features, data have been saved")
+
         inflexion_filename = os.path.join(output_dir, 'inflexion_point_'+str(key)+'.feather')
         xgb_model = os.path.join(output_dir, 'Muvpec_'+str(key)+'.model')
-        uvpec.evaluate_model(n_jobs, test_set, xgb_model, inflexion_filename, True, output_dir, key, use_C)
+        uvpec.evaluate_model(n_jobs, dataset_test, xgb_model, inflexion_filename, True, output_dir, use_C)
 
 if __name__ == "__main__":
     main()
