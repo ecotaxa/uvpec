@@ -7,7 +7,7 @@ import numpy
 setup(
         # metadata
         name='uvpec',
-        version='0.0',
+        version='1.0.0',
         description="Train UVP6 model",
         #long_description=file: README.md, # test if it works that way later
         #long_description_content_type='text/markdown',
