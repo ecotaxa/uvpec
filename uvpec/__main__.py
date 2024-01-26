@@ -114,7 +114,7 @@ def main():
             np.save(os.path.join(output_dir,'dico_id_test.npy'), dico_id_test)
             print("We are done with the extraction of test features, data have been saved")    
 
-        uvpec.evaluate_model(n_jobs, dataset_test, xgb_model,'toto', False, output_dir, use_C, True) # toto because we don't use the inflexion file in the evaluation process only
+        uvpec.evaluate_model(n_jobs, dataset_test, xgb_model,'toto', False, output_dir, use_C) # toto because we don't use the inflexion file in the evaluation process only
         sys.exit(0) # evaluation only, we stop here
 
     # Check if output directory exists
