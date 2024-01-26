@@ -14,6 +14,10 @@ import array
 
 def evaluate_model(n_jobs, df_test, xgb_model, inflexion_filename, use_inflexion, output_dir, key, use_C, evaluate_only = False):
     
+    # extract key (model identifier)
+    key = xgb_model.split('_')[-1].split('.')[0]
+    print(key)
+
     # create a dict() to convert labels to int (for xgboost)
     dico_label = {}
     for i, arg in enumerate(np.unique(df_test['labels'])):
