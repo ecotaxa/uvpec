@@ -12,11 +12,11 @@ from uvpec.custom import label_to_int, int_to_label
 from cython_uvp6 import py_load_model_and_predict
 import array
 
-def evaluate_model(n_jobs, df_test, xgb_model, inflexion_filename, use_inflexion, output_dir, key, use_C, evaluate_only = False):
+def evaluate_model(n_jobs, df_test, xgb_model, inflexion_filename, use_inflexion, output_dir, use_C, evaluate_only = False):
     
     # extract key (model identifier)
     key = xgb_model.split('_')[-1].split('.')[0]
-    print(key)
+    #print(key)
 
     # create a dict() to convert labels to int (for xgboost)
     dico_label = {}
