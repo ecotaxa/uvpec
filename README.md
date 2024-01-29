@@ -62,7 +62,7 @@ In addition, there is also another test that you can run in order to see if the 
 Just a reminder, if you see some errors during the test, check if you did not forget to run `uvpec config.yaml`.  
 `pytest` is not automatically present on your laptop. To install it, `pip install --user pytest`
 
-## [How to prepare your dataset from an Ecotaxa project ?](#how-to-prepare-your-dataset-from-an-ecotaxa-project-?)
+## How to prepare your dataset from an Ecotaxa project ?
 
 You can refer to the documentation on [Ecotaxa](https://ecotaxa.obs-vlfr.fr/) to download all the vignettes you need to use for your train and/or test set. See the "export project" part of your project on https://ecotaxa.obs-vlfr.fr/.
 
