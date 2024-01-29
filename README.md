@@ -64,6 +64,16 @@ In addition, there is also another test that you can run in order to see if the 
 Just a reminder, if you see some errors during the test, check if you did not forget to run `uvpec config.yaml`.  
 `pytest` is not automatically present on your laptop. To install it, `pip install --user pytest`
 
+### How to prepare your dataset from an Ecotaxa project ? 
+
+You can refer to the documentation on the Ecotaxa website to download all the vignettes you need to use for your train and/or test set. See the "export project" part of your project on https://ecotaxa.obs-vlfr.fr/. <br>
+<br>
+Ecotaxa is built with a rest API (https://ecotaxa.obs-vlfr.fr/api/docs) that has been designed to ease the work of the users. Two packages have been developped to help the use of the API in python (https://github.com/ecotaxa/ecotaxa_py_client) and in R (https://github.com/ecotaxa/ecotaxarapi). 
+Be careful to download the vignettes with the black background, as every objects are stored in two versions, white AND black background. <br>
+You will need to remove the size legend at the bottom of the vignette. To do so, just crop 31 pixel at the bottom of the vignette. <br>
+<br>
+Finally, just rename the vignettes with the UVPEC standard, defined above of this readme, and you are good to go ! 
+
 ### How to uninstall the package ?
 
 Run `pip uninstall uvpec`
