@@ -8,19 +8,16 @@ For smooth operation of the toolbox, the python package must be installed and th
 
 This toolbox has been tested on MacOS and Linux (e.g. Ubuntu 20.04/22.04 and Mint 21). We do not garantee it will work on Windows.
 
-### How to install the package ?
+## Installation
 
 First, you need to make sure that you have the two python libraries `setuptools` and `cython (version 0.29.30)` installed on your computer. If you do not have them, run `pip3 install --user setuptools Cython==0.29.30`
 
 Then, to install the package, run `python -m pip install git+https://github.com/ecotaxa/uvpec` in a terminal. You can also use the SSH version with `python -m pip install git+ssh://git@github.com/ecotaxa/uvpec.git`.
 Bingo ! You have now a great `uvpec` package installed on your computer, congratulations ! You can check if it is installed by running in your terminal `pip list | grep uvpec`
 
-### How to clone the repository ?
+You can also clone the repository locally. For this, run `git clone https://github.com/ecotaxa/uvpec.git` for HTTPS or `git clone git@github.com:ecotaxa/uvpec.git` for SSH.
 
-Run `git clone https://github.com/ecotaxa/uvpec.git` for HTTPS or 
-`git clone git@github.com:ecotaxa/uvpec.git` for SSH.
-
-### How to use the package?
+## Configuration and use of the package
 
 In order to use the `uvpec` package, you have to create a `config.yaml` file. Don't panic, you have an example of such a file in your cloned repository in `uvpec/uvpec/config.yaml`. In the latter, you need to specify 3 things : what do you want to do with the package, some input/output information and the parameters for the gradient boosted trees algorithm (XGBoost) that will train and create a classification model.
 
@@ -55,7 +52,7 @@ You will also notice that there is one last thing. `use_C` gives the possibility
 
 Once you are done, run `uvpec config.yaml` in your terminal and wait for the magic to happen ! You should get everything you need in the output folder you specified. 
 
-### Last but not least
+### Test the package
 
 We have prepared a `test` folder in our package. This allows you to check if the pipeline works without launching a full process that will take a significant amount of time. It is always a good idea to check if everything works well before using it on a full training set and also after some package updates. To use it,
 navigate in the test folder using `cd test` then run `uvpec config.yaml`. You should see something going on in your terminal. Don't forget to check your output folder now !
@@ -65,7 +62,7 @@ In addition, there is also another test that you can run in order to see if the 
 Just a reminder, if you see some errors during the test, check if you did not forget to run `uvpec config.yaml`.  
 `pytest` is not automatically present on your laptop. To install it, `pip install --user pytest`
 
-### How to prepare your dataset from an Ecotaxa project ?
+## [How to prepare your dataset from an Ecotaxa project ?](#how-to-prepare-your-dataset-from-an-ecotaxa-project-?)
 
 You can refer to the documentation on [Ecotaxa](https://ecotaxa.obs-vlfr.fr/) to download all the vignettes you need to use for your train and/or test set. See the "export project" part of your project on https://ecotaxa.obs-vlfr.fr/.
 
@@ -74,9 +71,8 @@ Be careful to download the vignettes with the black background because every obj
 
 Finally, just rename the vignettes with the `uvpec` standard (i.e. DisplayName__EcotaxaID), and you are good to go ! 
 
-### How to uninstall the package ?
+## Uninstalling or updating the package
 
-Run `pip uninstall uvpec`
+Uninstallation: run `pip uninstall uvpec`
 
-### How to update the package ?
-Run `pip uninstall uvpec` before reinstalling it then run`pip3 install --user git+https://github.com/ecotaxa/uvpec`
+Update: run `pip uninstall uvpec` before reinstalling it then run`pip3 install --user git+https://github.com/ecotaxa/uvpec`
