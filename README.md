@@ -10,6 +10,8 @@ This toolbox has been tested on MacOS and Linux (e.g. Ubuntu 20.04/22.04 and Min
 
 ## Installation
 
+**NOTE**: This package has been tested with python version 3.8.10 successfully but seems to struggle with python 3.11, most likely due to `cython` (now > 0.30.xx).
+
 First, you need to make sure that you have the two python libraries `setuptools` and `cython (version 0.29.30)` installed on your computer. If you do not have them, run `pip3 install --user setuptools Cython==0.29.30`
 
 Then, to install the package, run `python -m pip install git+https://github.com/ecotaxa/uvpec` in a terminal. You can also use the SSH version with `python -m pip install git+ssh://git@github.com/ecotaxa/uvpec.git`.
