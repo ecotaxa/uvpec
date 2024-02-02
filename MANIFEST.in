@@ -1,0 +1,2 @@
+include src/cython_uvp6.pyx
+include src/xgboost_import.hpp
