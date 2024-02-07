@@ -34,5 +34,8 @@ dependencies = [
     'seaborn>=0.11.1'
 ]
 
+[project.scripts]
+uvpec = "uvpec:__main__"
+
 [project.urls]
 homepage = "https://github.com/ecotaxa/uvpec"
