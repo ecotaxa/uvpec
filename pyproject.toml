@@ -35,7 +35,7 @@ dependencies = [
 ]
 
 [project.scripts]
-uvpec = "uvpec:__main__"
+uvpec = "uvpec.__main__:main"
 
 [project.urls]
 homepage = "https://github.com/ecotaxa/uvpec"
