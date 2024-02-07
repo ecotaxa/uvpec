@@ -31,13 +31,13 @@ setup(
             Extension("cython_uvp6", ["src/cython_uvp6.pyx"], language="c++")]),
         include_dirs=[numpy.get_include()], # had to add it because of an error on my local machine. See also here: https://stackoverflow.com/questions/14657375/cython-fatal-error-numpy-arrayobject-h-no-such-file-or-directory
         install_requires=[
-            'numpy>=1.19.5',
+            'numpy>=1.20.3',
             'pandas>=1.2.1',
             'PyYaml>=5.3.1',
             'scikit-image>=0.18.1',
             'xgboost>=1.3.3',
             'scikit-learn>=1.3.0',
-            'pyarrow>=3.0.0',
+            'pyarrow>=7.0.0',
             'key-generator>=1.0.3',
             'pillow>=8.2.2',
             'matplotlib>=3.3.4',
