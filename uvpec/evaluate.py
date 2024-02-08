@@ -127,7 +127,7 @@ def evaluate_model(n_jobs, df_test, xgb_model, inflexion_filename, use_inflexion
     living_stats_df = pd.DataFrame(np.array([[living_precision, living_precision_w],[living_recall, living_recall_w],[living_f1, living_f1_w]]), index = ['precision', 'recall', 'f1-score'], columns = ['living macro avg', 'living weighted avg'])
     living_stats_df = living_stats_df.transpose()
 
-    classif_report = classif_report.append(living_stats_df)
+    classif_report = pd.concat([classif_report, living_stats_df])
 
     # remove unused data
     classif_report.loc['weighted avg','support'] = np.nan
