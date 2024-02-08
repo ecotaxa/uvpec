@@ -39,3 +39,6 @@ uvpec = "uvpec.__main__:main"
 
 [project.urls]
 homepage = "https://github.com/ecotaxa/uvpec"
+
+[tool.cibuildwheel] # not absolutely necessary but it's nice to remember of using cibuildwheel to create the manylinux_XX.wheel
+before-all = "uname -a"
