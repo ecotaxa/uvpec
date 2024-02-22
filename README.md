@@ -1,3 +1,5 @@
+[![PyPI version](https://badge.fury.io/py/uvpec.svg)](https://badge.fury.io/py/uvpec)
+
 # Underwater Vision Profiler Embedded Classifier
 
 Toolbox to train automatic classification models for UVP6 images and/or to evaluate their performances.
